@@ -75,6 +75,7 @@ Where the options are the following:
 * -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory (required).
 * -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2.
 * -f FASTAFILE or --fasta-file FASTAFILE: Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils).
+* -l LINEAGE_NAMES or --lineage-names LINEAGE_NAMES: fasta file includes lineage names? [yes or not] (for KMER util). The IDs of the sequences must contain the lineage name followed by a "-" (See CLASSIFY utility for more information about the required format). If this option is yes, then a extra column will be added at the begining of the result file, containing a numerical representation of the lineage, as following: 1: ALE/RETROFIT, 3: ANGELA, 4: BIANCA, 8: IKEROS, 9: IVANA/ORYCO, 11: TAR, 12: TORK, 13: SIRE, 14: CRM, 16: GALADRIEL, 17: REINA, 18: TEKAY/DEL, 19: ATHILA, 20: TAT. 
 * -v or --version: show program's version number and exit.
 
 ## Inpactor2_utils Execution
@@ -83,7 +84,7 @@ This utility allows users to count k-mer frequencies in nucleotide sequences fro
 
 To use this utility, execute:
 ```
-python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multioutput_file.fasta 
+python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multioutput_file.fasta -l yes
 ```
 ### CLASSIFY utility
 This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
@@ -121,3 +122,4 @@ To use this utility, please run:
 python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multioutput_file.fasta 
 ```
 
+# 
