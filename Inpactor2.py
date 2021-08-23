@@ -21,13 +21,12 @@ from numpy import argmax
 import numpy as np
 
 
-# for working in Nvidia RTX 2080 super
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
-
-config = ConfigProto()
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
+# Uncomment the following lines for working in Nvidia RTX 2080 super
+# from tensorflow.compat.v1 import ConfigProto
+# from tensorflow.compat.v1 import InteractiveSession
+# config = ConfigProto()
+# config.gpu_options.allow_growth = True
+# session = InteractiveSession(config=config)
 
 """
 These functions are used to calculated performance metrics
@@ -635,7 +634,8 @@ def create_fasta_file_slave(predicted_ltr_rts, finalIds, x, seqs_per_procs, n, r
 if __name__ == '__main__':
     print("\n#########################################################################")
     print("#                                                                       #")
-    print("# Inpactor2: LTR Retrotransposon annotator using Deep Neural Networks   #")
+    print("# Inpactor2: A software based on deep learning to identify and classify #")
+    print("#               LTR-retrotransposons in plant genomes                   #")
     print("#                                                                       #")
     print("#########################################################################\n")
 
