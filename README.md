@@ -27,19 +27,19 @@ Then execute:
 python3 Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE] [-m MAX_LEN_THRESHOLD] [-n MIN_LEN_THRESHOLD] [-i TG_CA] [-d TSD] [-c CURATION] [-C CYCLES] [-V VERBOSE] [-v]
 ```
 Where the options are the following:
-* -h or --help: show this help message and exit
-* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences (required)
-* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory
-* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2
-* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or not]
-* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1 - 50000]
-* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1 - 50000]
-* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or not]
-* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or not]
-* -c CURATION or --curated CURATION: keep on only intact elements? [yes or not]
-* -C CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5]
-* -V VERBOSE or --verbose VERBOSE: activate verbose? [yes or not]
-* -v or --version: show program's version number and exit
+* -h or --help: show this help message and exit.
+* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences (required).
+* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory.
+* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2.
+* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or not].
+* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1 - 50000].
+* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1 - 50000].
+* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or not].
+* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or not].
+* -c CURATION or --curated CURATION: keep on only intact elements? [yes or not].
+* -C CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5].
+* -V VERBOSE or --verbose VERBOSE: activate verbose? [yes or not].
+* -v or --version: show program's version number and exit.
 
 This is highly recommended to create and use a output directory in order to avoid replace
 
@@ -54,13 +54,13 @@ The library will be done in fasta format. Each sequence has a identifier with fo
 ### Predictions file
 Additionally, The software writes in a file the probabilities obtained by each neural network (Inpactor2_Detect, Inpactor2_Filter and Inpactor2_Class) separated by tabulations. This file will be useful for knowning how reliable were the predictions done by the software. This file has the following columns:
 * Containing sequence
-* LTR-RT initial posicion in the sequence
-* LTR-RT end position 
-* LTR-RT length 
-* Predicted lineage 
-* Detection's probability obtained by Inpactor2_Detect
-* Filtering's probability obtained by Inpactor2_Filter
-* Classification's probrability obtained by Inpactor2_Class
+* LTR-RT initial posicion in the sequence.
+* LTR-RT end position. 
+* LTR-RT length. 
+* Predicted lineage.
+* Detection's probability obtained by Inpactor2_Detect.
+* Filtering's probability obtained by Inpactor2_Filter.
+* Classification's probrability obtained by Inpactor2_Class.
 
 # Inpactor2_utils
 In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, re-train Inpactor2_Class to specialize the neural network for a certain group of species, among others. 
@@ -71,8 +71,44 @@ python3 Inpactor2_utils.py [-h] -u UTIL -o OUTPUTDIR [-t THREADS] [-f FASTAFILE]
 ```
 Where the options are the following:
 * -h or --help: show this help message and exit
-* -u UTIL or --util UTIL: Utility to be used [FILTER, CLASSIFY, KMER]
-* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory
-* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2
-* -f FASTAFILE or --fasta-file FASTAFILE: Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils)
-* -v or --version: show program's version number and exit
+* -u UTIL or --util UTIL: Utility to be used [FILTER, CLASSIFY, KMER] (required).
+* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory (required).
+* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2.
+* -f FASTAFILE or --fasta-file FASTAFILE: Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils).
+* -v or --version: show program's version number and exit.
+
+## Inpactor2_utils Execution
+### k-mer counting utility
+This utility allows users to count k-mer frequencies from 1 <= k <= 6 through a convolutional neural network called "Inpactor2_K-mers" in a time-efficient way.
+```
+python3 Inpactor2_utils.py -u KMER -o output_directory -t 8 -f multioutput_file.fasta 
+```
+### CLASSIFY utility
+This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
+* ALE-
+* ALESIA-
+* RETROFIT-
+* ANGELA-
+* BIANCA-
+* IKEROS-
+* IVANA-
+* ORYCO-
+* OSSER-
+* TAR-
+* TORK-
+* SIRE-
+* CRM-
+* GALADRIEL-
+* REINA-
+* TEKAY- 
+* DEL-
+* ATHILA-
+* TAT-
+
+*NOTE: Inpactor2_Class was designed and trained for plant genomes, not for others organisms.  
+
+To run this utility, execute the following:
+```
+python3 Inpactor2_utils.py -u CLASSIFY -o output_directory -t num_cores -f multioutput_file.fasta 
+```
+
