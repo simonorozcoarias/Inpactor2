@@ -60,3 +60,5 @@ Additionally, The software writes in a file the probabilities obtained by each n
 * Detection's probability obtained by Inpactor2_Detect
 * Filtering's probability obtained by Inpactor2_Filter
 * Classification's probrability obtained by Inpactor2_Class
+
+## Inpactor2_utils
