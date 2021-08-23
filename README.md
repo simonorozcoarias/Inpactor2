@@ -123,7 +123,7 @@ python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multiou
 ```
 
 # Neural network Architectures
-In order to be reproducible, a directory with the four neural network architectures are available in jupyter notebooks. In the folder named "NN_architectures". Additionally, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
+In order to be reproducible, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
 # References and similar works
 * Orozco-Arias, S., Liu, J., Tabares-Soto, R., Ceballos, D., Silva Domingues, D., Garavito, A., ... & Guyot, R. (**2018**). Inpactor, integrated and parallel analyzer and classifier of LTR retrotransposons and its application for pineapple LTR retrotransposons diversity and dynamics. Biology, 7(2), 32.
