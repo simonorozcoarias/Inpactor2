@@ -24,9 +24,10 @@ conda activate Inpactor2
 ```
 Then execute:
 ```
-usage: Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE] [-m MAX_LEN_THRESHOLD] [-n MIN_LEN_THRESHOLD] [-i TG_CA] [-d TSD] [-c CURATION] [-C CYCLES] [-V VERBOSE] [-v]
+python3 Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE] [-m MAX_LEN_THRESHOLD] [-n MIN_LEN_THRESHOLD] [-i TG_CA] [-d TSD] [-c CURATION] [-C CYCLES] [-V VERBOSE] [-v]
 ```
 Where the options are the following:
+* -h or --help: show this help message and exit
 * -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences (required)
 * -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory
 * -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2
@@ -61,4 +62,17 @@ Additionally, The software writes in a file the probabilities obtained by each n
 * Filtering's probability obtained by Inpactor2_Filter
 * Classification's probrability obtained by Inpactor2_Class
 
-## Inpactor2_utils
+# Inpactor2_utils
+In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, re-train Inpactor2_Class to specialize the neural network for a certain group of species, among others. 
+
+## Usage
+```
+python3 Inpactor2_utils.py [-h] -u UTIL -o OUTPUTDIR [-t THREADS] [-f FASTAFILE] [-v]
+```
+Where the options are the following:
+* -h or --help: show this help message and exit
+* -u UTIL or --util UTIL: Utility to be used [FILTER, CLASSIFY, KMER]
+* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory
+* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2
+* -f FASTAFILE or --fasta-file FASTAFILE: Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils)
+* -v or --version: show program's version number and exit
