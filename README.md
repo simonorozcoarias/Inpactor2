@@ -79,9 +79,11 @@ Where the options are the following:
 
 ## Inpactor2_utils Execution
 ### k-mer counting utility
-This utility allows users to count k-mer frequencies from 1 <= k <= 6 through a convolutional neural network called "Inpactor2_K-mers" in a time-efficient way.
+This utility allows users to count k-mer frequencies in nucleotide sequences from 1 <= k <= 6 through a convolutional neural network called "Inpactor2_K-mers" in a time-efficient way.
+
+To use this utility, execute:
 ```
-python3 Inpactor2_utils.py -u KMER -o output_directory -t 8 -f multioutput_file.fasta 
+python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multioutput_file.fasta 
 ```
 ### CLASSIFY utility
 This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
@@ -105,10 +107,17 @@ This utility lets users to re-train Inpactor2_Class neural network with custom L
 * ATHILA-
 * TAT-
 
-*NOTE: Inpactor2_Class was designed and trained for plant genomes, not for others organisms.  
+**NOTE**: Inpactor2_Class was designed and trained only for plant genomes, not for others organisms.  
 
 To run this utility, execute the following:
 ```
 python3 Inpactor2_utils.py -u CLASSIFY -o output_directory -t num_cores -f multioutput_file.fasta 
+```
+### Sequence filter utility
+In order to avoid a possible error in Inpactor2 caused by a non-nucleotide character (a character different than A, C, T, G or N), This utility removes all those characters. The scripts produces a file with the same name of the input, but adding the extension ".filtered". This output can be used in Inpactor2.
+
+To use this utility, please run:
+```
+python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multioutput_file.fasta 
 ```
 
