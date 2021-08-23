@@ -24,5 +24,19 @@ conda activate Inpactor2
 ```
 Then execute:
 ```
-python3 Inpactor2.py -f <input_genome_file.fasta> [
+usage: Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE] [-m MAX_LEN_THRESHOLD] [-n MIN_LEN_THRESHOLD] [-i TG_CA] [-d TSD] [-c CURATION] [-C CYCLES] [-V VERBOSE] [-v]
 ```
+Where the options are the following:
+* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences
+* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory
+* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2
+* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or not]
+* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1-50000]
+* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1-50000]
+* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or not]
+* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or not]
+* -c CURATION or --curated CURATION: keep on only intact elements? [yes or not]
+* -C CYCLES or --cycles CYCLES: Number of analysis cycles [1-5]
+* -V VERBOSE or --verbose VERBOSE: activate verbose? [yes or not]
+* -v or --version: show program's version number and exit
+
