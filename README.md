@@ -27,16 +27,36 @@ Then execute:
 usage: Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE] [-m MAX_LEN_THRESHOLD] [-n MIN_LEN_THRESHOLD] [-i TG_CA] [-d TSD] [-c CURATION] [-C CYCLES] [-V VERBOSE] [-v]
 ```
 Where the options are the following:
-* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences
+* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences (required)
 * -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory
 * -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2
 * -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or not]
-* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1-50000]
-* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1-50000]
+* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1 - 50000]
+* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1 - 50000]
 * -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or not]
 * -d TSD or --tsd TSD: Keep only elements with TDS? [yes or not]
 * -c CURATION or --curated CURATION: keep on only intact elements? [yes or not]
-* -C CYCLES or --cycles CYCLES: Number of analysis cycles [1-5]
+* -C CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5]
 * -V VERBOSE or --verbose VERBOSE: activate verbose? [yes or not]
 * -v or --version: show program's version number and exit
 
+This is highly recommended to create and use a output directory in order to avoid replace
+
+## Inpactor2's Output
+Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabula format named "Inpactor2_predictions.tab".
+
+### LTR-retrotransposon library
+The library will be done in fasta format. Each sequence has a identifier with follows the structure:
+```
+>ContainingSequence#LTR/PredictedLineage
+```
+### Predictions file
+Additionally, The software writes in a file the probabilities obtained by each neural network (Inpactor2_Detect, Inpactor2_Filter and Inpactor2_Class) separated by tabulations. This file will be useful for knowning how reliable were the predictions done by the software. This file has the following columns:
+* Containing sequence
+* LTR-RT initial posicion in the sequence
+* LTR-RT end position 
+* LTR-RT length 
+* Predicted lineage 
+* Detection's probability obtained by Inpactor2_Detect
+* Filtering's probability obtained by Inpactor2_Filter
+* Classification's probrability obtained by Inpactor2_Class
