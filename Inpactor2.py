@@ -661,7 +661,7 @@ if __name__ == '__main__':
                         help='Number of analysis cycles [1-5]')
     parser.add_argument('-V', '--verbose', required=False, dest='verbose',
                         help='activate verbose? [yes or not]')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s v1.8')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s v1.0')
 
     options = parser.parse_args()
     file = options.fasta_file

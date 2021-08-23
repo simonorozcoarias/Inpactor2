@@ -279,70 +279,81 @@ def kmer_extractor_model(dataset):
 """
 This function calculates k-mer frequencies of seqFile and write them in the seqfile.kmers file
 """
-def k_mer_counting(seqFile, outputDir, total_win_len):
+def k_mer_counting(seqFile, outputDir, total_win_len, lineage_names):
     kmer_extractor = kmer_extractor_model(np.zeros((1, 5, total_win_len)))
-    result_file = open(outputDir+'/'+seqFile+'.kmers', 'w')
+    file_name = os.path.basename(seqFile)
+    result_file = open(outputDir+'/'+file_name+'.kmers', 'w')
     seqs = SeqIO.parse(seqFile, "fasta")
+
+    # to put the headers
+    kmers = []
+    for k in range(1, 7):
+        for item in itertools.product('ACGT', repeat=k):
+            kmers.append(''.join(item))
+    if lineage_names == 'YES':
+        result_file.write('Label,' + ','.join(kmers) + '\n')
+    else:
+        result_file.write(','.join(kmers) + '\n')
+
     for seq in seqs:
         TEid = str(seq.id)
-        order = -1
-        if str(TEid).upper().find("ALE-") != -1 or str(TEid).upper().find("RETROFIT-") != -1:
-            order = 1
-        elif str(TEid).upper().find("ALESIA-") != -1:
-            order = 2
-        elif str(TEid).upper().find("ANGELA-") != -1:
-            order = 3
-        elif str(TEid).upper().find("BIANCA-") != -1:
-            order = 4
-        elif str(TEid).upper().find("BRYCO-") != -1:
-            order = 5
-        elif str(TEid).upper().find("LYCO-") != -1:
-            order = 6
-        elif str(TEid).upper().find("GYMCO-") != -1:
-            order = 7
-        elif str(TEid).upper().find("IKEROS-") != -1:
-            order = 8
-        elif str(TEid).upper().find("IVANA-") != -1 or str(TEid).upper().find("ORYCO-") != -1:
-            order = 9
-        elif str(TEid).upper().find("OSSER-") != -1:
-            order = 10
-        elif str(TEid).upper().find("TAR-") != -1:
-            order = 11
-        elif str(TEid).upper().find("TORK-") != -1:
-            order = 12
-        elif str(TEid).upper().find("SIRE-") != -1:
-            order = 13
-        elif str(TEid).upper().find("CRM-") != -1:
-            order = 14
-        elif str(TEid).upper().find("CHLAMYVIR-") != -1:
-            order = 15
-        elif str(TEid).upper().find("GALADRIEL-") != -1:
-            order = 16
-        elif str(TEid).upper().find("REINA-") != -1:
-            order = 17
-        elif str(TEid).upper().find("TEKAY-") != -1 or str(TEid).upper().find("DEL-") != -1:
-            order = 18
-        elif str(TEid).upper().find("ATHILA-") != -1:
-            order = 19
-        elif str(TEid).upper().find("TAT-") != -1:
-            order = 20
-        elif str(TEid).upper().find("OGRE-") != -1:
-            order = 21
-        elif str(TEid).upper().find("RETAND-") != -1:
-            order = 22
-        elif str(TEid).upper().find("PHYGY-") != -1:
-            order = 23
-        elif str(TEid).upper().find("SELGY-") != -1:
-            order = 24
+        if lineage_names == 'YES':
+            order = -1
+            if str(TEid).upper().find("ALE-") != -1 or str(TEid).upper().find("RETROFIT-") != -1:
+                order = 1
+            elif str(TEid).upper().find("ALESIA-") != -1:
+                order = 2
+            elif str(TEid).upper().find("ANGELA-") != -1:
+                order = 3
+            elif str(TEid).upper().find("BIANCA-") != -1:
+                order = 4
+            elif str(TEid).upper().find("BRYCO-") != -1:
+                order = 5
+            elif str(TEid).upper().find("LYCO-") != -1:
+                order = 6
+            elif str(TEid).upper().find("GYMCO-") != -1:
+                order = 7
+            elif str(TEid).upper().find("IKEROS-") != -1:
+                order = 8
+            elif str(TEid).upper().find("IVANA-") != -1 or str(TEid).upper().find("ORYCO-") != -1:
+                order = 9
+            elif str(TEid).upper().find("OSSER-") != -1:
+                order = 10
+            elif str(TEid).upper().find("TAR-") != -1:
+                order = 11
+            elif str(TEid).upper().find("TORK-") != -1:
+                order = 12
+            elif str(TEid).upper().find("SIRE-") != -1:
+                order = 13
+            elif str(TEid).upper().find("CRM-") != -1:
+                order = 14
+            elif str(TEid).upper().find("CHLAMYVIR-") != -1:
+                order = 15
+            elif str(TEid).upper().find("GALADRIEL-") != -1:
+                order = 16
+            elif str(TEid).upper().find("REINA-") != -1:
+                order = 17
+            elif str(TEid).upper().find("TEKAY-") != -1 or str(TEid).upper().find("DEL-") != -1:
+                order = 18
+            elif str(TEid).upper().find("ATHILA-") != -1:
+                order = 19
+            elif str(TEid).upper().find("TAT-") != -1:
+                order = 20
+            elif str(TEid).upper().find("OGRE-") != -1:
+                order = 21
+            elif str(TEid).upper().find("RETAND-") != -1:
+                order = 22
+            elif str(TEid).upper().find("PHYGY-") != -1:
+                order = 23
+            elif str(TEid).upper().find("SELGY-") != -1:
+                order = 24
 
-        if order != -1:
+            if order != -1:
+                kmer_counts = kmer_extractor.predict(fasta2one_hot(str(seq.seq), total_win_len))
+                result_file.write(str(order)+','+','.join([str(int(kmer_counts[0, f])) for f in range(kmer_counts.shape[1])])+'\n')
+        else:
             kmer_counts = kmer_extractor.predict(fasta2one_hot(str(seq.seq), total_win_len))
-            kmers = []
-            for k in range(1, 7):
-                for item in itertools.product('ACGT', repeat=k):
-                    kmers.append(''.join(item))
-            result_file.write('Label,' + ','.join(kmers) + '\n')
-            result_file.write(str(order)+','+','.join([str(int(kmer_counts[0, f])) for f in range(kmer_counts.shape[1])])+'\n')
+            result_file.write(','.join([str(int(kmer_counts[0, f])) for f in range(kmer_counts.shape[1])]) + '\n')
 
     result_file.close()
 
@@ -479,18 +490,21 @@ if __name__ == '__main__':
 
     ### read parameters
     parser = argparse.ArgumentParser()
-    parser.add_argument('-u', '--util', required=True, dest='util', help='Utility to be used')
+    parser.add_argument('-u', '--util', required=True, dest='util', help='Utility to be used [FILTER, CLASSIFY, KMER]')
     parser.add_argument('-o', '--output-dir', required=True, dest='outputDir', help='Path of the output directory')
     parser.add_argument('-t', '--threads', required=False, dest='threads',
                         help='Number of threads to be used by Inpactor2')
-    parser.add_argument('-f', '--fasta-file', required=False, dest='fastafile', help='Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s v2.3')
+    parser.add_argument('-f', '--fasta-file', required=False, dest='fastafile', help='Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils)')
+    parser.add_argument('-l', '--lineage-names', required=False, dest='lineage_names',
+                        help='fasta file includes lineage names? [yes or not] (for KMER util)')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s v1.0')
 
     options = parser.parse_args()
     util = options.util
     outputDir = options.outputDir
     threads = options.threads
     fastafile = options.fastafile
+    lineage_names = options.lineage_names
 
     ##################################################################################
     # global configuration variables
@@ -503,7 +517,7 @@ if __name__ == '__main__':
         print('FATAL ERROR: Missing utility parameter (-u or --util). Exiting')
         sys.exit(0)
     elif util.upper() not in ['DETECT', 'FILTER', 'CLASSIFY', 'KMER']:
-        print('FATAL ERROR: '+util+' not found, utility must be one of the following: DETECT, FILTER, CLASSIFY')
+        print('FATAL ERROR: '+util+' not found, utility must be one of the following: DETECT, FILTER, CLASSIFY, KMER')
         sys.exit(0)
     if outputDir is None:
         print('FATAL ERROR: Missing output directory parameter (-o or --output-dir). Exiting')
@@ -526,7 +540,12 @@ if __name__ == '__main__':
         elif not os.path.exists(fastafile):
             print('FATAL ERROR: Fasta file did not found at path: ' + fastafile)
             sys.exit(0)
-        k_mer_counting(fastafile, outputDir, total_win_len)
+        if lineage_names is None:
+            print("WARNING: Missing -l or --lineage-names parameter, using by default: yes")
+        elif lineage_names.upper() not in ['YES', 'NO']:
+            print('FATAL ERROR: Incorrect value for -l or --lineage-names parameter: '+lineage_names+'. Must be yes or not. Existing')
+            sys.exit(0)
+        k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
 
     ##################################################################################
     # Second Util: re-training Inpactor2_Class
@@ -543,7 +562,7 @@ if __name__ == '__main__':
         retraining_class(outputDir+'/'+fastafile+'.kmers', outputDir)
 
     ##################################################################################
-    # Third Util: filtering sequences
+    # Third Util: filtering characters that are not nucleotides (A, C, G, T or N)
     if util.upper() == "FILTER":
         if fastafile is None:
             print('FATAL ERROR: Missing fasta file parameter (-f or --fasta-file). Existing')
