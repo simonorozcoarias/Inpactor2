@@ -41,7 +41,7 @@ Where the options are the following:
 * -V VERBOSE or --verbose VERBOSE: activate verbose? [yes or not].
 * -v or --version: show program's version number and exit.
 
-This is highly recommended to create and use a output directory in order to avoid replace
+It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
 
 ## Inpactor2's Output
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabula format named "Inpactor2_predictions.tab".
@@ -62,13 +62,15 @@ Additionally, The software writes in a file the probabilities obtained by each n
 * Filtering's probability obtained by Inpactor2_Filter.
 * Classification's probrability obtained by Inpactor2_Class.
 
-### Annotation output (Repeat Masker)
-Optionally, Inpactor2 can use the library created during program execution to annotate LTR-retrotransposons in plant genomes using Repeat Masker software. Inpactor2 uses the following parameters:  -gff -nolow -no_is -norna. In addition, it will use the same number of cores specified in the -t flag of Inpactor2. This outputs will bee generated if the flag -a yes is defined in the Inpactor2's execution. Due to the execution of Repeat Masker, five additional files will be created in the output directory indicated with the -o flag:
+### Annotation output (Repeat Masker, optional)
+Optionally, Inpactor2 can use the library created during program execution to annotate LTR-retrotransposons in plant genomes using Repeat Masker software. Inpactor2 uses the following parameters:  -gff -nolow -no_is -norna. In addition, it will use the same number of cores specified in the -t flag of Inpactor2. This outputs will bee generated if the flag "-a yes" is defined in the Inpactor2's execution. Due to the execution of Repeat Masker, five additional files will be created in the output directory indicated with the -o flag:
 * genome_file.fasta.masked
 * genome_file.fasta.cat.gz
 * genome_file.fasta.out
 * genome_file.fasta.out.gff
 * genome_file.fasta.tbl
+
+Where "genome_file.fasta" is the name of the input genome used in Inpctor2.
 
 # Inpactor2_utils
 In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, re-train Inpactor2_Class to specialize the neural network for a certain group of species, among others. 
