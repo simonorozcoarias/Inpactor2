@@ -70,7 +70,7 @@ Optionally, Inpactor2 can use the library created during program execution to an
 * genome_file.fasta.out.gff
 * genome_file.fasta.tbl
 
-Where "genome_file.fasta" is the name of the input genome used in Inpctor2.
+Where "genome_file.fasta" is the name of the input genome used in Inpactor2.
 
 # Inpactor2_utils
 In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, re-train Inpactor2_Class to specialize the neural network for a certain group of species, among others. 
