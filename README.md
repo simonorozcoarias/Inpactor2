@@ -44,7 +44,7 @@ Where the options are the following:
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
 
 ## Inpactor2's Output
-Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabula format named "Inpactor2_predictions.tab".
+Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
 
 ### LTR-retrotransposon library
 The library will be done in fasta format. Each sequence has a identifier with follows the structure:
