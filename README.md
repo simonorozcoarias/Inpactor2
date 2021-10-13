@@ -63,7 +63,7 @@ Additionally, The software writes in a file the probabilities obtained by each n
 * Classification's probrability obtained by Inpactor2_Class.
 
 ### Annotation output (Repeat Masker, optional)
-Optionally, Inpactor2 can use the library created during program execution to annotate LTR-retrotransposons in plant genomes using Repeat Masker software. Inpactor2 uses the following parameters:  -gff -nolow -no_is -norna. In addition, it will use the same number of cores specified in the -t flag of Inpactor2. This outputs will bee generated if the flag "-a yes" is defined in the Inpactor2's execution. Due to the execution of Repeat Masker, five additional files will be created in the output directory indicated with the -o flag:
+Optionally, Inpactor2 can use the library created during program execution to annotate LTR-retrotransposons in plant genomes using Repeat Masker software. Inpactor2 uses the following parameters:  -gff -nolow -no_is -norna. In addition, it will use the same number of cores specified in the -t flag of Inpactor2. This outputs will be generated if the flag "-a yes" is defined in the Inpactor2's execution. Due to the execution of Repeat Masker, five additional files will be created in the output directory indicated with the -o flag:
 * genome_file.fasta.masked
 * genome_file.fasta.cat.gz
 * genome_file.fasta.out
