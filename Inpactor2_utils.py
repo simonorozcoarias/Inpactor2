@@ -556,7 +556,7 @@ if __name__ == '__main__':
         elif not os.path.exists(fastafile):
             print('FATAL ERROR: Fasta file did not found at path: ' + fastafile)
             sys.exit(0)
-        k_mer_counting(fastafile, outputDir, total_win_len)
+        k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
 
         # To call the deep neural network
         retraining_class(outputDir+'/'+fastafile+'.kmers', outputDir)
