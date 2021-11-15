@@ -542,6 +542,7 @@ if __name__ == '__main__':
             sys.exit(0)
         if lineage_names is None:
             print("WARNING: Missing -l or --lineage-names parameter, using by default: yes")
+            lineage_names = 'YES'
         elif lineage_names.upper() not in ['YES', 'NO']:
             print('FATAL ERROR: Incorrect value for -l or --lineage-names parameter: '+lineage_names+'. Must be yes or not. Existing')
             sys.exit(0)
@@ -555,6 +556,12 @@ if __name__ == '__main__':
             sys.exit(0)
         elif not os.path.exists(fastafile):
             print('FATAL ERROR: Fasta file did not found at path: ' + fastafile)
+            sys.exit(0)
+        if lineage_names is None:
+            print("WARNING: Missing -l or --lineage-names parameter, using by default: yes")
+            lineage_names = 'YES'
+        elif lineage_names.upper() not in ['YES', 'NO']:
+            print('FATAL ERROR: Incorrect value for -l or --lineage-names parameter: '+lineage_names+'. Must be yes or not. Existing')
             sys.exit(0)
         k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
 
