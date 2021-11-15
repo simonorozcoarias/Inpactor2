@@ -290,14 +290,14 @@ def k_mer_counting(seqFile, outputDir, total_win_len, lineage_names):
     for k in range(1, 7):
         for item in itertools.product('ACGT', repeat=k):
             kmers.append(''.join(item))
-    if lineage_names == 'YES':
+    if lineage_names.upper() == 'YES':
         result_file.write('Label,' + ','.join(kmers) + '\n')
     else:
         result_file.write(','.join(kmers) + '\n')
 
     for seq in seqs:
         TEid = str(seq.id)
-        if lineage_names == 'YES':
+        if lineage_names.upper() == 'YES':
             order = -1
             if str(TEid).upper().find("ALE-") != -1 or str(TEid).upper().find("RETROFIT-") != -1:
                 order = 1
