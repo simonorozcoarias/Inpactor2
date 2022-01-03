@@ -39,7 +39,7 @@ Where the options are the following:
 * -c CURATION or --curated CURATION: keep on only intact elements? [yes or no].
 * -C (upper case) CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5].
 * -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or no].
-* -v or --version: show program's version number and exit.
+* --version: show program's version number and exit.
 
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
 
