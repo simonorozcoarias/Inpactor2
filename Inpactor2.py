@@ -652,16 +652,16 @@ if __name__ == '__main__':
     parser.add_argument('-n', '--min-len', required=False, dest='min_len_threshold',
                         help='Minimum length for detecting LTR-retrotransposons [1-50000]')
     parser.add_argument('-i', '--tg-ca', required=False, dest='tg_ca',
-                        help='Keep only elements with TG-CA-LTRs? [yes or not]')
+                        help='Keep only elements with TG-CA-LTRs? [yes or no]')
     parser.add_argument('-d', '--tsd', required=False, dest='TSD',
-                        help='Keep only elements with TDS? [yes or not]')
+                        help='Keep only elements with TDS? [yes or no]')
     parser.add_argument('-c', '--curated', required=False, dest='curation',
-                        help='keep on only intact elements? [yes or not]')
+                        help='keep on only intact elements? [yes or no]')
     parser.add_argument('-C', '--cycles', required=False, dest='cycles',
                         help='Number of analysis cycles [1-5]')
     parser.add_argument('-V', '--verbose', required=False, dest='verbose',
-                        help='activate verbose? [yes or not]')
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s v1.0')
+                        help='activate verbose? [yes or no]')
+    parser.add_argument('--version', action='version', version='%(prog)s v1.0')
 
     options = parser.parse_args()
     file = options.fasta_file
