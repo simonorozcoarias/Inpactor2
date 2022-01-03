@@ -31,14 +31,14 @@ Where the options are the following:
 * -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences (required).
 * -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory.
 * -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2.
-* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or not].
+* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or no].
 * -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1 - 50000].
 * -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1 - 50000].
-* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or not].
-* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or not].
-* -c CURATION or --curated CURATION: keep on only intact elements? [yes or not].
+* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or no].
+* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or no].
+* -c CURATION or --curated CURATION: keep on only intact elements? [yes or no].
 * -C (upper case) CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5].
-* -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or not].
+* -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or no].
 * -v or --version: show program's version number and exit.
 
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
