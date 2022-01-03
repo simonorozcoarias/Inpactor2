@@ -37,8 +37,8 @@ Where the options are the following:
 * -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or not].
 * -d TSD or --tsd TSD: Keep only elements with TDS? [yes or not].
 * -c CURATION or --curated CURATION: keep on only intact elements? [yes or not].
-* -C CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5].
-* -V VERBOSE or --verbose VERBOSE: activate verbose? [yes or not].
+* -C (upper case) CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5].
+* -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or not].
 * -v or --version: show program's version number and exit.
 
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
