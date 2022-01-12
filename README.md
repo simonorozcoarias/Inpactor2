@@ -22,11 +22,11 @@ Activate the anaconda environment:
 ```
 conda activate Inpactor2
 ```
-Then execute:
+Then execute Inpactor2 with default parameters:
 ```
-python3 Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE] [-m MAX_LEN_THRESHOLD] [-n MIN_LEN_THRESHOLD] [-i TG_CA] [-d TSD] [-c CURATION] [-C CYCLES] [-V VERBOSE] [-v]
+python3 Inpactor2.py -f genome_file.fasta -o outputDir
 ```
-Where the options are the following:
+Please note that the unique required parameter is -f (the genome file in fasta format). The outputDir is a folder where Inpactor2 will put some temporal files and also the final results. It is mandatory that outputDir folder exists before running Inpactor2. The complete options are the following:
 * -h or --help: show this help message and exit.
 * -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences **(required)**.
 * -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory. Default: current path.
@@ -42,12 +42,6 @@ Where the options are the following:
 * --version: show program's version number and exit.
 
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
-
-For example, to execute Inpactor2 with default parameters:
-```
-python3 Inpactor2.py -f genome_file.fasta -o outputDir
-```
-Please note that the unique required parameter is -f (the genome file in fasta format). The outputDir is a folder where Inpactor2 will put some temporal files and also the final results. It is mandatory that outputDir folder exists before running Inpactor2.
 
 ## Inpactor2's Output
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
