@@ -22,11 +22,11 @@ import numpy as np
 
 
 # Uncomment the following lines for working in Nvidia RTX 2080 super
-# from tensorflow.compat.v1 import ConfigProto
-# from tensorflow.compat.v1 import InteractiveSession
-# config = ConfigProto()
-# config.gpu_options.allow_growth = True
-# session = InteractiveSession(config=config)
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+config = ConfigProto()
+config.gpu_options.allow_growth = True
+session = InteractiveSession(config=config)
 
 """
 These functions are used to calculated performance metrics
@@ -446,9 +446,9 @@ This function predicts the lineage of each sequence in the k-mer file using a pr
 """
 def Inpactor2_Class(seq_data):
     installation_path = os.path.dirname(os.path.realpath(__file__))
-    lineages_names_dic = {0: 'Negative', 1: 'ALE/RETROFIT', 3: 'ANGELA', 4: 'BIANCA', 8: 'IKEROS', 9: 'IVANA/ORYCO',
-                          11: 'TAR', 12: 'TORK', 13: 'SIRE', 14: 'CRM', 16: 'GALADRIEL', 17: 'REINA', 18: 'TEKAY/DEL',
-                          19: 'ATHILA', 20: 'TAT'}
+    lineages_names_dic = {0: 'Negative', 1: 'RLC/ALE/RETROFIT', 3: 'RLC/ANGELA', 4: 'RLC/BIANCA', 8: 'RLC/IKEROS', 9: 'RLC/IVANA/ORYCO',
+                          11: 'RLC/TAR', 12: 'RLC/TORK', 13: 'RLC/SIRE', 14: 'RLG/CRM', 16: 'RLG/GALADRIEL', 17: 'RLG/REINA', 18: 'RLG/TEKAY/DEL',
+                          19: 'RLG/ATHILA', 20: 'RLG/TAT'}
 
     # Scaling
     scaling_path = installation_path + '/Models/std_scaler.bin'
@@ -623,7 +623,7 @@ def create_fasta_file_slave(predicted_ltr_rts, finalIds, x, seqs_per_procs, n, r
         idseq = columns[0]
         initPos = columns[1]
         endPos = columns[2]
-        results = '>' + idseq + '_' + initPos + '_' + endPos + '#LTR/' + lineage.replace('/', '-') + '\n' + \
+        results = '>' + idseq + '_' + initPos + '_' + endPos + '#LTR/' + lineage.replace('/', '-').replace('RLC-', 'RLC/').replace('RLG-', 'RLG/') + '\n' + \
                   predicted_ltr_rts[i] + '\n'
         result_file.write(results)
         init += 1
@@ -641,26 +641,26 @@ if __name__ == '__main__':
 
     ### read parameters
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--file', required=True, dest='fasta_file', help='Fasta file containing DNA sequences')
-    parser.add_argument('-o', '--output-dir', required=False, dest='outputDir', help='Path of the output directory')
+    parser.add_argument('-f', '--file', required=True, dest='fasta_file', help='Fasta file containing DNA sequences. Required*')
+    parser.add_argument('-o', '--output-dir', required=False, dest='outputDir', help='Path of the output directory. Default: current path')
     parser.add_argument('-t', '--threads', required=False, dest='threads',
-                        help='Number of threads to be used by Inpactor2')
+                        help='Number of threads to be used by Inpactor2. Default: all available threads')
     parser.add_argument('-a', '--annotate', required=False, dest='annotate',
-                        help='Annotate LTR retrotransposons? [yes or not]')
+                        help='Annotate LTR retrotransposons? [yes or not]. Default: yes')
     parser.add_argument('-m', '--max-len', required=False, dest='max_len_threshold',
-                        help='Maximum length for detecting LTR-retrotransposons [1-50000]')
+                        help='Maximum length for detecting LTR-retrotransposons [1-50000]. Default: 28000')
     parser.add_argument('-n', '--min-len', required=False, dest='min_len_threshold',
-                        help='Minimum length for detecting LTR-retrotransposons [1-50000]')
+                        help='Minimum length for detecting LTR-retrotransposons [1-50000]. Default: 2000')
     parser.add_argument('-i', '--tg-ca', required=False, dest='tg_ca',
-                        help='Keep only elements with TG-CA-LTRs? [yes or no]')
+                        help='Keep only elements with TG-CA-LTRs? [yes or no]. Default: yes')
     parser.add_argument('-d', '--tsd', required=False, dest='TSD',
-                        help='Keep only elements with TDS? [yes or no]')
+                        help='Keep only elements with TDS? [yes or no]. Default: yes')
     parser.add_argument('-c', '--curated', required=False, dest='curation',
-                        help='keep on only intact elements? [yes or no]')
+                        help='keep on only intact elements? [yes or no]. Default: yes')
     parser.add_argument('-C', '--cycles', required=False, dest='cycles',
-                        help='Number of analysis cycles [1-5]')
+                        help='Number of analysis cycles [1-5]. Default: 1')
     parser.add_argument('-V', '--verbose', required=False, dest='verbose',
-                        help='activate verbose? [yes or no]')
+                        help='activate verbose? [yes or no]. Default: no')
     parser.add_argument('--version', action='version', version='%(prog)s v1.0')
 
     options = parser.parse_args()
@@ -808,14 +808,14 @@ if __name__ == '__main__':
         print('INFO: Splitting of input sequences done!!!! [time=' + str(finish - start) + ']')
 
         ##################################################################################
-        # Second step: Predict initial and end position of LTR-RTs in each chunk
-        print('INFO: Predicting which genome chunk contains LTR-RTs...')
+        # Second step: Predict initial and end position of LTR-RTs in each section
+        print('INFO: Predicting which genomic sections contains LTR-RTs...')
         start = time.time()
         splitted_genome_ltr, detection_proba, list_ids = Inpactor2_Detect(splitted_genome, detec_threshold, list_ids)
 
         if verbose:
             print("------ Verbose")
-            print("\tWindows detected with LTR-retrotransposons inside: " + str(
+            print("\tSections detected with LTR-retrotransposons inside: " + str(
                 splitted_genome_ltr.shape[0]) + " of " + str(splitted_genome.shape[0]))
             print("------ ")
 
