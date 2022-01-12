@@ -47,9 +47,9 @@ It is highly recommended to create and use an output directory to avoid the subs
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
 
 ### LTR-retrotransposon library
-The library will be done in fasta format. Each sequence has a identifier with follows the structure:
+The library will be done in fasta format. Each sequence has a identifier with follows the structure, where RLC and RLG means Copia and Gypsy superfamilies:
 ```
->ContainingSequence#LTR/PredictedLineage
+>ContainingSequence#LTR/RL[C-G]/PredictedLineage
 ```
 ### Predictions file
 Additionally, The software writes in a file the probabilities obtained by each neural network (Inpactor2_Detect, Inpactor2_Filter and Inpactor2_Class) separated by tabulations. This file will be useful for knowning how reliable were the predictions done by the software. This file has the following columns:
