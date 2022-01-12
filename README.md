@@ -28,20 +28,26 @@ python3 Inpactor2.py [-h] -f FASTA_FILE [-o OUTPUTDIR] [-t THREADS] [-a ANNOTATE
 ```
 Where the options are the following:
 * -h or --help: show this help message and exit.
-* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences (required).
-* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory.
-* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2.
-* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or no].
-* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1 - 50000].
-* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1 - 50000].
-* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or no].
-* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or no].
-* -c CURATION or --curated CURATION: keep on only intact elements? [yes or no].
-* -C (upper case) CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5].
-* -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or no].
+* -f FASTA_FILE or --file FASTA_FILE: Fasta file containing DNA sequences **(required)**.
+* -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory. Default: current path.
+* -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2. Default: all available threads.
+* -a ANNOTATE or, --annotate ANNOTATE: Annotate LTR retrotransposons using RepeatMasker? [yes or no]. Default: yes.
+* -m MAX_LEN_THRESHOLD or --max-len MAX_LEN_THRESHOLD: Maximum length for detecting LTR-retrotransposons [1 - 50000]. Default: 28000.
+* -n MIN_LEN_THRESHOLD or --min-len MIN_LEN_THRESHOLD: Minimum length for detecting LTR-retrotransposons [1 - 50000]. Default: 2000.
+* -i TG_CA or --tg-ca TG_CA: Keep only elements with TG-CA-LTRs? [yes or no]. Default: yes.
+* -d TSD or --tsd TSD: Keep only elements with TDS? [yes or no]. Default: yes.
+* -c CURATION or --curated CURATION: keep on only intact elements? [yes or no]. Default: yes.
+* -C (upper case) CYCLES or --cycles CYCLES: Number of analysis cycles [1 - 5]. Default: 1.
+* -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or no]. Default: no.
 * --version: show program's version number and exit.
 
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
+
+For example, to execute Inpactor2 with default parameters:
+```
+python3 Inpactor2.py -f genome_file.fasta -o outputDir
+```
+Please note that the unique required parameter is -f (the genome file in fasta format). The outputDir is a folder where Inpactor2 will put some temporal files and also the final results. It is mandatory that outputDir folder exists before running Inpactor2.
 
 ## Inpactor2's Output
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
