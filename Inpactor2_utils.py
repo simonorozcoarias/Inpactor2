@@ -195,10 +195,8 @@ def Final_Results_Test(PATH_trained_models, X_test, Y_test):
     return AccTest, LossTest, B_name
 
 
-def train(model, X_train, y_train, X_valid, y_valid, X_test, y_test, batch_size, epochs, path_log_base, model_name=""):
+def train(model, X_train, y_train, X_valid, y_valid, X_test, y_test, batch_size, epochs, log_dir, model_name=""):
     start_time = tm.time()
-    log_dir = path_log_base + "/" + model_name + "_" + str(
-        datetime.datetime.now().isoformat()[:19].replace("T", "_").replace(":", "-"))
     tensorboard = tf.keras.callbacks.TensorBoard(log_dir, histogram_freq=1)
     filepath = log_dir + "/saved-model-{epoch:03d}-{val_f1_m:.4f}.hdf5"
     checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, monitor='val_f1_m', save_best_only=False, mode='max')
@@ -208,9 +206,6 @@ def train(model, X_train, y_train, X_valid, y_valid, X_test, y_test, batch_size,
     lossTEST, accuracyTEST = model.evaluate(X_test, y_test, verbose=None)
     lossVALID, accuracyVALID = model.evaluate(X_valid, y_valid, verbose=None)
     lossTRAIN, accuracyTRAIN = model.evaluate(X_train, y_train, verbose=None)
-
-    model_Name = model_name
-    log_Dir = log_dir
 
     history = model.fit(X_train, y_train, epochs=epochs,
                         callbacks=[tensorboard, checkpoint],
@@ -319,10 +314,10 @@ def k_mer_counting(seqFile, outputDir, total_win_len, lineage_names):
                 order = 9
             elif str(TEid).upper().find("OSSER-") != -1:
                 order = 10
-            elif str(TEid).upper().find("TAR-") != -1:
+            elif str(TEid).upper().find("TAR-") != -1 or str(TEid).upper().find("TORK-") != -1:
                 order = 11
-            elif str(TEid).upper().find("TORK-") != -1:
-                order = 12
+            #elif str(TEid).upper().find("TORK-") != -1:
+                #order = 12
             elif str(TEid).upper().find("SIRE-") != -1:
                 order = 13
             elif str(TEid).upper().find("CRM-") != -1:
@@ -424,7 +419,6 @@ def retraining_class(kmer_file, outputDir):
     model = Inpactor2_Class(X_trainPCAScaler)
     # summarize layers
     print(model.summary())
-    tf.keras.utils.plot_model(model, show_shapes=True)
 
     one_hot_labels_train = tf.keras.utils.to_categorical(Y_trainScaler, num_classes=21)
     one_hot_labels_validation = tf.keras.utils.to_categorical(Y_dev, num_classes=21)
@@ -432,9 +426,9 @@ def retraining_class(kmer_file, outputDir):
 
     # Fit the model
     lossTEST, accuracyTEST, lossTRAIN, accuracyTRAIN, lossVALID, accuracyVALID, history= train(model, X_trainPCAScaler,
-          one_hot_labels_train, X_validationPCAScaler, one_hot_labels_validation, X_testPCAScaler, one_hot_labels_test,
+          one_hot_labels_train, X_validationPCAScaler, one_hot_labels_validation, X_validationPCAScaler, one_hot_labels_validation,
                                                                                          128, 200, log_dir, model_name)
-    AccTest, LossTest, B_name = Final_Results_Test(log_dir, X_test, one_hot_labels_test)
+    AccTest, LossTest, B_name = Final_Results_Test(log_dir, X_testPCAScaler, one_hot_labels_test)
 
     # plot metrics
     plt.plot(history.history['f1_m'])
@@ -467,7 +461,7 @@ def retraining_class(kmer_file, outputDir):
     metrics(Y_test, [argmax(x) for x in predictions])
 
     shutil.move(log_dir + '/'+B_name, outputDir+'/Inpactor_Class.hdf5')
-    os.remove(log_dir)
+    os.rmdir(log_dir)
 
 """
 This function deletes all characters that are no DNA (A, C, G, T, N)
@@ -563,10 +557,10 @@ if __name__ == '__main__':
         elif lineage_names.upper() not in ['YES', 'NO']:
             print('FATAL ERROR: Incorrect value for -l or --lineage-names parameter: '+lineage_names+'. Must be yes or not. Existing')
             sys.exit(0)
-        k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
+        #k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
 
         # To call the deep neural network
-        retraining_class(outputDir+'/'+fastafile+'.kmers', outputDir)
+        retraining_class('/home/bioml/Projects/PhD/OE2/Repo/Inpactor2/test1/InpactorDB_non_redundant_final_V4.fasta.filtered.kmers', outputDir)
 
     ##################################################################################
     # Third Util: filtering characters that are not nucleotides (A, C, G, T or N)

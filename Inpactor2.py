@@ -447,7 +447,7 @@ This function predicts the lineage of each sequence in the k-mer file using a pr
 def Inpactor2_Class(seq_data):
     installation_path = os.path.dirname(os.path.realpath(__file__))
     lineages_names_dic = {0: 'Negative', 1: 'RLC/ALE/RETROFIT', 3: 'RLC/ANGELA', 4: 'RLC/BIANCA', 8: 'RLC/IKEROS', 9: 'RLC/IVANA/ORYCO',
-                          11: 'RLC/TAR', 12: 'RLC/TORK', 13: 'RLC/SIRE', 14: 'RLG/CRM', 16: 'RLG/GALADRIEL', 17: 'RLG/REINA', 18: 'RLG/TEKAY/DEL',
+                          11: 'RLC/TAR/TORK', 12: 'RLC/TORK/TAR', 13: 'RLC/SIRE', 14: 'RLG/CRM', 16: 'RLG/GALADRIEL', 17: 'RLG/REINA', 18: 'RLG/TEKAY/DEL',
                           19: 'RLG/ATHILA', 20: 'RLG/TAT'}
 
     # Scaling
