@@ -9,8 +9,10 @@
 * [Neural network architectures](#architectures)
 * [References and related works](#references) 
 * [Other useful resources](#resources) 
+
 ## Introduction
 <a name="introduction"/>
+
 Inpactor2 is a software based on four neural networks, whose input is an assembled genome and output is a library of LTR-retrotransposons. Optionally, Inpactor2 can run an annotation of the library with RepeatMasker. This tool was developed with the aim of decreasing run times of LTR-retrotransposon analyses on plant genomes and thus speeding up large-scale genomic analyses (e.g. those using many plant species).
 
 First, Inpactor2 receives a genome assembly in FASTA format, then each sequence in the input file is split into sections of 50 Kb, without overlapping (stride of 50 Kb). Each section is converted into a 2D-representation using one-hot encoding. Next, a  convolutional neural network (CNN) called "Inpactor2_Detect" is used to predict which section contain LTR-RTs and these sections are retained for further analysis. Then, LTR_finder is run to search the beginning and end positions of the previously detected LTR-RT. This step is executed in parallel in order to reduce the execution time. After, a CNN called "Inpactor2_K-mers" is used to count k-mer frequencies in the extracted LTR-retrotransposons. This CNN is intended to extract features required by the next NNs of the pipeline in a time-efficient way. Then, intact sequences are filtered and retained based on the k-mer frequencies and a fully connected neural network (FNN) called "Inpactor2_Filter". Finally, another FNN named "Inpactor2_Class" is used to classify the elements into lineages. 
@@ -21,6 +23,7 @@ Inpactor2 can be executed using several (from one to five) cycles of analysis to
 
 ## Installation:
 <a name="instalation"/>
+
 We highly recommend to use and install Python packages within an Anaconda environment. First, download the lastest version of Inpactor2
 
 ```
@@ -33,6 +36,7 @@ conda env create -f Inpactor2.yml
 
 ## Usage:
 <a name="usage"/>
+
 Activate the anaconda environment:
 ```
 conda activate Inpactor2
@@ -60,6 +64,7 @@ It is highly recommended to create and use an output directory to avoid the subs
 
 ## Inpactor2's Output
 <a name="output"/>
+
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
 
 ### LTR-retrotransposon library
@@ -90,6 +95,7 @@ Where "genome_file.fasta" is the name of the input genome used in Inpactor2.
 
 # Inpactor2_utils
 <a name="inpactor2_utils"/>
+
 In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, re-train Inpactor2_Class to specialize the neural network for a certain group of species, among others. 
 
 ## Usage
@@ -151,6 +157,7 @@ python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multiou
 
 # Neural network Architectures
 <a name="architectures"/>
+
 In order to be reproducible, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
 # References and similar works
