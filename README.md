@@ -3,9 +3,8 @@
 * [Instalation](#instalation)  
  
 
-
-<a name="introduction"/>
 ## Introduction
+<a name="introduction"/>
 Inpactor2 is a software based on four neural networks, whose input is an assembled genome and output is a library of LTR-retrotransposons. Optionally, Inpactor2 can run an annotation of the library with RepeatMasker. This tool was developed with the aim of decreasing run times of LTR-retrotransposon analyses on plant genomes and thus speeding up large-scale genomic analyses (e.g. those using many plant species).
 
 First, Inpactor2 receives a genome assembly in FASTA format, then each sequence in the input file is split into sections of 50 Kb, without overlapping (stride of 50 Kb). Each section is converted into a 2D-representation using one-hot encoding. Next, a  convolutional neural network (CNN) called "Inpactor2_Detect" is used to predict which section contain LTR-RTs and these sections are retained for further analysis. Then, LTR_finder is run to search the beginning and end positions of the previously detected LTR-RT. This step is executed in parallel in order to reduce the execution time. After, a CNN called "Inpactor2_K-mers" is used to count k-mer frequencies in the extracted LTR-retrotransposons. This CNN is intended to extract features required by the next NNs of the pipeline in a time-efficient way. Then, intact sequences are filtered and retained based on the k-mer frequencies and a fully connected neural network (FNN) called "Inpactor2_Filter". Finally, another FNN named "Inpactor2_Class" is used to classify the elements into lineages. 
@@ -15,6 +14,7 @@ Inpactor2 can be executed using several (from one to five) cycles of analysis to
 ![alt text](https://github.com/simonorozcoarias/Inpactor2/blob/main/NN_architectures/Inpactor_structure.png)
 
 ## Installation:
+<a name="instalation"/>
 We highly recommend to use and install Python packages within an Anaconda environment. First, download the lastest version of Inpactor2
 ```
 git clone https://github.com/simonorozcoarias/Inpactor2.git
