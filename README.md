@@ -22,6 +22,7 @@ Inpactor2 can be executed using several (from one to five) cycles of analysis to
 ## Installation:
 <a name="instalation"/>
 We highly recommend to use and install Python packages within an Anaconda environment. First, download the lastest version of Inpactor2
+
 ```
 git clone https://github.com/simonorozcoarias/Inpactor2.git
 ```
