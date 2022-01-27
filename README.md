@@ -1,8 +1,14 @@
-##### Table of Contents  
+# Inpactor2: LTR retrotransposon detector and classificator using Deep Learning
+
+## Table of Contents  
 * [Introduction](#introduction)  
 * [Instalation](#instalation)  
- 
-
+* [Usage](#usage) 
+* [Inpactor2's output](#output) 
+* [Inpactor2_utils](#inpactor2_utils) 
+* [Neural network architectures](#architectures)
+* [References and related works](#references) 
+* [Other useful resources](#resources) 
 ## Introduction
 <a name="introduction"/>
 Inpactor2 is a software based on four neural networks, whose input is an assembled genome and output is a library of LTR-retrotransposons. Optionally, Inpactor2 can run an annotation of the library with RepeatMasker. This tool was developed with the aim of decreasing run times of LTR-retrotransposon analyses on plant genomes and thus speeding up large-scale genomic analyses (e.g. those using many plant species).
@@ -25,6 +31,7 @@ conda env create -f Inpactor2.yml
 ```
 
 ## Usage:
+<a name="usage"/>
 Activate the anaconda environment:
 ```
 conda activate Inpactor2
@@ -51,6 +58,7 @@ Please note that the unique required parameter is -f (the genome file in fasta f
 It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
 
 ## Inpactor2's Output
+<a name="output"/>
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
 
 ### LTR-retrotransposon library
@@ -80,6 +88,7 @@ Optionally, Inpactor2 can use the library created during program execution to an
 Where "genome_file.fasta" is the name of the input genome used in Inpactor2.
 
 # Inpactor2_utils
+<a name="inpactor2_utils"/>
 In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, re-train Inpactor2_Class to specialize the neural network for a certain group of species, among others. 
 
 ## Usage
@@ -140,9 +149,11 @@ python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multiou
 ```
 
 # Neural network Architectures
+<a name="architectures"/>
 In order to be reproducible, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
 # References and similar works
+<a name="references"/>
 * Orozco-Arias, S., Liu, J., Tabares-Soto, R., Ceballos, D., Silva Domingues, D., Garavito, A., ... & Guyot, R. (**2018**). Inpactor, integrated and parallel analyzer and classifier of LTR retrotransposons and its application for pineapple LTR retrotransposons diversity and dynamics. Biology, 7(2), 32.
 * Orozco-Arias, S., Isaza, G., & Guyot, R. (**2019**). Retrotransposons in plant genomes: structure, identification, and classification through bioinformatics and machine learning. International journal of molecular sciences, 20(15), 3837.
 * Orozco-Arias, S., Isaza, G., Guyot, R., & Tabares-Soto, R. (**2019**). A systematic review of the application of machine learning in the detection and classification of transposable elements. PeerJ, 7, e8311.
@@ -152,7 +163,8 @@ In order to be reproducible, a directory named "NN_architectures" is available w
 * Orozco-Arias, S., Candamil-Cortes, M. S., Jaimes, P. A., Valencia-Castrillon, E., Tabares-Soto, R., Guyot, R., & Isaza, G. (**2021**). Deep Neural Network to Curate LTR Retrotransposon Libraries from Plant Genomes. In International Conference on Practical Applications of Computational Biology & Bioinformatics (pp. 85-94). Springer, Cham.
 * Orozco-Arias, S., Candamil-Cortés, M. S., Valencia-Castrillón, E., Jaimes, P. A., Tobón Orozco, N., Arias-Mendoza, M., Tabares-Soto, R., Guyot, R., & Isaza, G. (**2021**). SENMAP: A Convolutional Neural Network Architecture for Curation of LTR-RT Libraries from Plant Genomes. In 2021 IEEE 2nd International Congress of Biomedical Engineering and Bioengineering (CI-IB&BI) (pp. 1-4). IEEE.
 
-# Other important resourcers
+# Other useful resourcers
+<a name="resources"/>
 * Inpactor version 1 (non-DL implementation): [Inpactor V1 github](https://github.com/simonorozcoarias/Inpactor)
 * LTR retrotransposon classification experiments using ML: [ML experiments github](https://github.com/simonorozcoarias/MachineLearningInTEs)
 * Plant LTR retrotransposon reference library: [InpactorDB dataset](https://zenodo.org/record/5816833#.YdRXUXWZNH4)
