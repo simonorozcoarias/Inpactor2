@@ -31,6 +31,7 @@ git clone https://github.com/simonorozcoarias/Inpactor2.git
 ```
 Go to the Inpactor2 folder and find the file named "Inpactor2.yml". Then, install the environment: 
 ```
+cd Inpactor2
 conda env create -f Inpactor2.yml
 ```
 
@@ -60,7 +61,7 @@ Please note that the unique required parameter is -f (the genome file in fasta f
 * -V (upper case) VERBOSE or --verbose VERBOSE: activate verbose? [yes or no]. Default: no.
 * --version: show program's version number and exit.
 
-It is highly recommended to create and use an output directory to avoid the substitution of result files from different runs of Inpactor2.
+It is highly recommended to create and use an output directory in each execution to avoid the substitution of result files from different runs of Inpactor2.
 
 ## Inpactor2's Output
 <a name="output"/>
