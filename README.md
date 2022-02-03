@@ -127,7 +127,7 @@ Where the options are the following:
 * -o OUTPUTDIR or --output-dir OUTPUTDIR: Path of the output directory **(required)**.
 * -t THREADS or --threads THREADS: Number of threads to be used by Inpactor2. Default: all available threads.
 * -f FASTAFILE or --fasta-file FASTAFILE: Path of fasta file containg DNA sequences (for KMER and CLASSIFY utils).
-* -l LINEAGE_NAMES or --lineage-names LINEAGE_NAMES: fasta file includes lineage names? [yes or not] (for KMER util). The IDs of the sequences must contain the lineage name followed by a "-" (See CLASSIFY utility for more information about the required format). If this option is yes, then a extra column will be added at the beginning of the result file, containing a numerical representation of the lineage, as following: 1: ALE/RETROFIT, 3: ANGELA, 4: BIANCA, 8: IKEROS, 9: IVANA/ORYCO, 11: TAR, 12: TORK, 13: SIRE, 14: CRM, 16: GALADRIEL, 17: REINA, 18: TEKAY/DEL, 19: ATHILA, 20: TAT. 
+* -l LINEAGE_NAMES or --lineage-names LINEAGE_NAMES: fasta file includes lineage names? [yes or not] (for KMER util). The IDs of the sequences must contain the lineage name followed by a "-" (See CLASSIFY utility for more information about the required format). If this option is yes, then a extra column will be added at the beginning of the result file, containing a numerical representation of the lineage, as following: 1: ALE/RETROFIT, 3: ANGELA, 4: BIANCA, 8: IKEROS, 9: IVANA/ORYCO, 11: TAR/TORK, 13: SIRE, 14: CRM, 16: GALADRIEL, 17: REINA, 18: TEKAY/DEL, 19: ATHILA, 20: TAT. 
 * -v or --version: show program's version number and exit.
 
 ## Inpactor2_utils Execution
