@@ -12,6 +12,7 @@
 * * [CLASSIFY utility](#inpactor2_utils_classify) 
 * * [Sequence filter utility](#inpactor2_utils_filter)
 * [Neural network architectures](#architectures)
+* [For advance GPU users only](#gpu_users)
 * [References and related works](#references) 
 * [Other useful resources](#resources) 
 
@@ -196,6 +197,7 @@ Where -o output_directory is a folder where Inpactor2 will put final results (it
 To improve the reproducibility, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
 # For advance GPU users only
+<a name="gpu_users"/>
 If when running Inpactor2 using GPU (especially on Nvidia RTX 2080 super) you get an error message similar to the following:
 ```
 .... Failed to get convolution algorithm. This is probably because cuDNN failed to initialize ....
