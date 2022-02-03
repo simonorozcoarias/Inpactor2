@@ -3,6 +3,7 @@
 ## Table of Contents  
 * [Introduction](#introduction)  
 * [Instalation](#instalation)  
+* [Testing](#testing)  
 * [Usage](#usage) 
 * [Inpactor2's output](#output) 
 * [Inpactor2_utils](#inpactor2_utils) 
@@ -33,8 +34,19 @@ git clone https://github.com/simonorozcoarias/Inpactor2.git
 ```
 Go to the Inpactor2 folder and find the file named "Inpactor2.yml". Then, install the environment: 
 ```
-cd Inpactor2
-conda env create -f Inpactor2.yml
+conda env create -f Inpactor2/Inpactor2.yml
+```
+
+## Testing:
+<a name="testing"/>
+
+After successfully installing Inpactor2, you can test it using the testing data contained in this repository. To do so, first you must activate the conda environment:
+```
+conda activate Inpactor2
+```
+Then, you must run the following command:
+```
+python3 Inpactor2.py -f Testing/toy_genome.fasta -o Testing/toy_execution
 ```
 
 ## Usage:
