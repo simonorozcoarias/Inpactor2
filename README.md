@@ -7,6 +7,9 @@
 * [Usage](#usage) 
 * [Inpactor2's output](#output) 
 * [Inpactor2_utils](#inpactor2_utils) 
+* * [K-mer counting utility](#inpactor2_utils_kmer) 
+* * [CLASSIFY utility](#inpactor2_utils_classify) 
+* * [Sequence filter utility](#inpactor2_utils_filter)
 * [Neural network architectures](#architectures)
 * [References and related works](#references) 
 * [Other useful resources](#resources) 
@@ -128,14 +131,16 @@ Where the options are the following:
 * -v or --version: show program's version number and exit.
 
 ## Inpactor2_utils Execution
-### k-mer counting utility
+### k-mer counting utility  
+<a name="inpactor2_utils_kmer"/>
 This utility allows users to count k-mer frequencies in nucleotide sequences from 1 <= k <= 6 through a convolutional neural network called "Inpactor2_K-mers" in a time-efficient way.
 
 To use this utility, execute:
 ```
 python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multioutput_file.fasta -l yes
 ```
-### CLASSIFY utility
+### CLASSIFY utility  
+<a name="inpactor2_utils_classify"/>
 This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
 * ALE-
 * ALESIA-
@@ -164,7 +169,8 @@ To run this utility, execute the following:
 python3 Inpactor2_utils.py -u CLASSIFY -o output_directory -t num_cores -f multioutput_file.fasta 
 ```
 ### Sequence filter utility
-In order to avoid a possible error in Inpactor2 caused by a non-nucleotide character (a character different than A, C, T, G or N), This utility removes all those characters. The scripts produces a file with the same name of the input, but adding the extension ".filtered". This output can be used in Inpactor2.
+<a name="inpactor2_utils_filter"/>
+To avoid a possible error in Inpactor2 caused by a non-nucleotide character (a character different than A, C, T, G or N), This utility removes all those characters. The scripts produces a file with the same name of the input, but adding the extension ".filtered". This output can be used in Inpactor2.
 
 To use this utility, please run:
 ```
@@ -174,7 +180,7 @@ python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multiou
 # Neural network Architectures
 <a name="architectures"/>
 
-In order to be reproducible, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
+To improve the reproducibility, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
 # References and similar works
 <a name="references"/>
