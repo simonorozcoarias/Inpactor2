@@ -46,7 +46,7 @@ conda activate Inpactor2
 ```
 Then, you must run the following command:
 ```
-python3 Inpactor2.py -f Testing/toy_genome.fasta -o Testing/toy_execution
+python3 Inpactor2.py -f Testing/toy_genome.fasta -o Testing/toy_execution -a no
 ```
 
 ## Usage:
