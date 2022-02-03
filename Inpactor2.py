@@ -847,7 +847,7 @@ if __name__ == '__main__':
 
         if len(pos_predicted) == 0:
             print('WARNING: There is no LTR retrotransposons that satisfy the conditions after structural filtration, '
-                  'try modifying the parameters -m, -n, -i, and -d ....')
+                  'check your assembly file or try modifying the parameters -m, -n, -i, and -d ....')
             sys.exit(0)
 
         ##################################################################################
