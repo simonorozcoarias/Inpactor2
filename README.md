@@ -48,6 +48,7 @@ Then, you must run the following command:
 ```
 python3 Inpactor2.py -f Testing/toy_genome.fasta -o Testing/toy_execution -a no
 ```
+Finally compare your results in the folder Testing/toy_execution with the files 'Inpactor2_library_successfull_run.fasta' and 'Inpactor2_predictions_successfull_run.tab'. If you obtain similar (or also the same) results, congrats! Inpactor2 is now installed and funcional.
 
 ## Usage:
 <a name="usage"/>
