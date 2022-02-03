@@ -22,11 +22,11 @@ import numpy as np
 
 
 # Uncomment the following lines for working in Nvidia RTX 2080 super
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
-config = ConfigProto()
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
+#from tensorflow.compat.v1 import ConfigProto
+#from tensorflow.compat.v1 import InteractiveSession
+#config = ConfigProto()
+#config.gpu_options.allow_growth = True
+#session = InteractiveSession(config=config)
 
 """
 These functions are used to calculated performance metrics
