@@ -18,7 +18,7 @@ Inpactor2 was designed and developed to detect reference LTR retrotransposons (L
 Inpactor2 uses neural networks to perform its tasks faster than other software (up to 7 times faster), accurately while maintaining high sensitivity and a low false positive rate.
 
 <p align="center">
-![alt text](https://github.com/simonorozcoarias/Inpactor2/blob/main/NN_architectures/simple_Inpactor2_diagram.png)
+  <img src="https://github.com/simonorozcoarias/Inpactor2/blob/main/NN_architectures/simple_Inpactor2_diagram.png">
 </p>
 
 Inpactor2 receives as input a genomic assembly and generates a library of semi-curated and classified LTR-RTs (in fasta format). In addition, it generates a tabular file listing the predictions made by each neural network to verify the confidentiality of each detected LTR-RT. If the RepeatMasker option is active, it will generate the same files as a traditional run of this software.
