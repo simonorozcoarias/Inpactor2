@@ -22,11 +22,11 @@ import numpy as np
 
 
 # Uncomment the following lines for working in Nvidia RTX 2080 super
-#from tensorflow.compat.v1 import ConfigProto
-#from tensorflow.compat.v1 import InteractiveSession
-#config = ConfigProto()
-#config.gpu_options.allow_growth = True
-#session = InteractiveSession(config=config)
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+config = ConfigProto()
+config.gpu_options.allow_growth = True
+session = InteractiveSession(config=config)
 
 """
 These functions are used to calculated performance metrics
@@ -50,6 +50,10 @@ def f1_m(y_true, y_pred):
     recall = recall_m(y_true, y_pred)
     return 2 * ((precision * recall) / (precision + recall + K.epsilon()))
 
+
+"""
+These functions are used to check if the input sequences contain non-nucleotic characters (others than A, C, T, G, N)
+"""
 def check_nucleotides_master(list_seqs, threads):
     n = len(list_seqs)
     seqs_per_procs = int(n / threads)
@@ -86,6 +90,11 @@ def check_nucleotides_slave(list_seqs):
             return 1
     return 0
 
+
+"""
+These functions split the input sequences into total_win_len length to get a standard size of all sequences
+needed to execute the neural networks
+"""
 def create_dataset_master(list_ids, list_seqs, threads, total_win_len, outputDir):
     n = len(list_ids)
     seqs_per_procs = int(n / threads)
@@ -142,6 +151,9 @@ def create_dataset_slave(list_seqs, total_win_len, outputdir, x):
         return np.zeros((1, 1), dtype=bool)
 
 
+"""
+These functions are used to calcute the size of the data to be analyze by the software
+"""
 def get_final_dataset_size(file, total_win_len, slide):
     seqfile = [x for x in SeqIO.parse(file, 'fasta')]
     list_ids_splitted = []
@@ -161,6 +173,9 @@ def get_final_dataset_size(file, total_win_len, slide):
     return list_ids_splitted, list_seq_splitter
 
 
+"""
+This converts a fasta sequences (in nucleotides) to one-hot representation
+"""
 def fasta2one_hot(sequence, total_win_len):
     langu = ['A', 'C', 'G', 'T', 'N']
     posNucl = 0
@@ -173,6 +188,9 @@ def fasta2one_hot(sequence, total_win_len):
     return rep2d
 
 
+"""
+This converts a one-hot representation of a sequence to its fasta form (in nucleotides)
+"""
 def one_hot2fasta(dataset):
     langu = ['A', 'C', 'G', 'T', 'N']
     fasta_seqs = ""
@@ -207,6 +225,9 @@ def Inpactor2_Detect(splitted_genome, detec_threshold, list_ids):
     return splitted_genome_ltr, detect_proba, new_list_ids
 
 
+"""
+This function look for the start and end position of the LTR-RTs in the sections predicted that contain elements.
+"""
 def sequences_extractor_master(splitted_genome_ltr, threads, outputDir, max_len_threshold, min_len_threshold, list_ids, tg_ca, TSD, detection_proba):
     n = splitted_genome_ltr.shape[0]
     seqs_per_procs = int(n / threads)
@@ -295,6 +316,9 @@ def sequences_extractor_slave(splitted_genome, x, seqs_per_procs, n, remain, out
     return predicted_pos
 
 
+"""
+This function uses LTR_Finder to find the elements inside the sections predicted that contain elements
+"""
 def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, min_len_threshold, tg_ca, TSD):
     seq1file = open(outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta', 'w')
     iterSeq = one_hot2fasta(extracted_seq)
@@ -340,6 +364,9 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
     return bestHits
 
 
+"""
+The model of Inpactor2_K-mers
+"""
 def kmer_extractor_model(dataset):
     # to load pre-calculated weights to extract k-mer frequencies
     installation_path = os.path.dirname(os.path.realpath(__file__))
@@ -409,7 +436,7 @@ def Inpactor2_kmer(position_detected, batch_size, splitted_genome_ltr):
 
 
 """
-This function uses the FNN to automatically filter non-intact sequences.
+This function uses the FNN to automatically filter non-intact sequences using the Inpactor2_Filter architecture.
 """
 def Inpactor2_Filter(kmer_counts, ids_predicted, positions_detected, filter_threshold):
     new_position_predicted = []
@@ -443,7 +470,7 @@ def Inpactor2_Filter(kmer_counts, ids_predicted, positions_detected, filter_thre
 
 
 """
-This function predicts the lineage of each sequence in the k-mer file using a pre-trained DNN
+This function predicts the lineage of each sequence using the Inpactor2_Class architecture
 """
 def Inpactor2_Class(seq_data):
     installation_path = os.path.dirname(os.path.realpath(__file__))
@@ -471,6 +498,11 @@ def Inpactor2_Class(seq_data):
         perc_list.append(predictions[i, lineages_ids[i]])
     return [lineages_names_dic[x] for x in lineages_ids], perc_list
 
+
+"""
+This function removes all the sequences that have a IOU (intersection over union) greater than iou_threshold
+keeping only the element with best average prediction percentage.
+"""
 def non_maximal_suppression(ids_predicted, predictions, percentages, iou_threshold, curation, predicted_ltr_rts):
     finalIds = []
     for i in range(len(ids_predicted)):
@@ -515,6 +547,13 @@ def non_maximal_suppression(ids_predicted, predictions, percentages, iou_thresho
     return finalIds, new_predictions, new_percentages, new_ltr_predicted
 
 
+"""
+This function calculates the IOU of two predicted LTR-RTs taking into account the following formula:
+
+IOU = max(0, min(Y1, X1) - max(Y0, X0)) / max(Y1, X1)-min(Y0,X0)
+
+Where X0 and Y0 are the beginning positions of predictions 1 and 2, and X1 and Y1 are the ending positions of predictions 1 and 2, respectively
+"""
 def iou(seqX, seqY):
     columns = seqX.split("#")
     idseqX = columns[0]
@@ -535,7 +574,7 @@ def iou(seqX, seqY):
 
 
 """
-This function predicts the lineage of each sequence in the k-mer file using a pre-trained DNN
+This function create the Inpactor2_prediction.tab file
 """
 def create_bed_file(finalIds, percentajes, outputDir, curation):
     # to write the results into a bed file
@@ -563,6 +602,10 @@ def create_bed_file(finalIds, percentajes, outputDir, curation):
     return finalIds
 
 
+"""
+This function create the Inpactor2_library.fasta file, taking the joined prediction and creates a fasta file containing
+all LTR retrotransposon's sequences
+"""
 def create_fasta_file_master(finalIds, threads, ltr_predicted_final, outputDir, curation):
     n = len(finalIds)
     seqs_per_procs = int(n / threads)
@@ -598,10 +641,6 @@ def create_fasta_file_master(finalIds, threads, ltr_predicted_final, outputDir, 
     outputFile.close()
     pool.close()
 
-"""
-This function takes the joined prediction and creates a fasta file containing
-all LTR retrotransposon's sequences
-"""
 def create_fasta_file_slave(predicted_ltr_rts, finalIds, x, seqs_per_procs, n, remain, outputDir, curation):
     res = ""
     i = 0
