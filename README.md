@@ -137,11 +137,13 @@ This utility allows users to count k-mer frequencies in nucleotide sequences fro
 
 To use this utility, execute:
 ```
-python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multioutput_file.fasta -l yes
+python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multiseq_file.fasta -l yes
 ```
+Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software, and -l flag indicates if your multiseq_file.fasta contains the lineage/family classification of each LTR-RT (see CLASSIFY utility to get more information about them).
+
 ### CLASSIFY utility  
 <a name="inpactor2_utils_classify"/>
-This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
+This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage/family name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
 * ALE-
 * ALESIA-
 * RETROFIT-
@@ -166,8 +168,10 @@ This utility lets users to re-train Inpactor2_Class neural network with custom L
 
 To run this utility, execute the following:
 ```
-python3 Inpactor2_utils.py -u CLASSIFY -o output_directory -t num_cores -f multioutput_file.fasta 
+python3 Inpactor2_utils.py -u CLASSIFY -o output_directory -t num_cores -f multiseq_file.fasta 
 ```
+Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), and multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software.
+
 ### Sequence filter utility
 <a name="inpactor2_utils_filter"/>
 To avoid a possible error in Inpactor2 caused by a non-nucleotide character (a character different than A, C, T, G or N), This utility removes all those characters. The scripts produces a file with the same name of the input, but adding the extension ".filtered". This output can be used in Inpactor2.
@@ -176,6 +180,7 @@ To use this utility, please run:
 ```
 python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multioutput_file.fasta 
 ```
+Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), and multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software.
 
 # Neural network Architectures
 <a name="architectures"/>
