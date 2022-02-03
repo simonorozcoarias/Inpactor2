@@ -5,7 +5,8 @@
 * [Instalation](#instalation)  
 * [Testing](#testing)  
 * [Usage](#usage) 
-* [Inpactor2's output](#output) 
+* [Inputs](#input) 
+* [Outputs](#output) 
 * [Inpactor2_utils](#inpactor2_utils) 
 * * [K-mer counting utility](#inpactor2_utils_kmer) 
 * * [CLASSIFY utility](#inpactor2_utils_classify) 
@@ -80,6 +81,13 @@ Please note that the unique required parameter is -f (the genome file in fasta f
 * --version: show program's version number and exit.
 
 It is highly recommended to create and use an output directory in each execution to avoid the substitution of result files from different runs of Inpactor2.
+
+## Inpactor2's Input
+<a name="input"/>
+
+The input required for Inpactor2 is a fasta file containing an assembly of the genome of the species to be analyzed. It is important to mention that the quality of Inpactor2 results depends directly on the input data. If the input genome has a very low N50 (less than 10-20 kb), contains a lot of Ns, or it is very fragmented it is possible that Inpactor2 will not detect LTR-RTs.
+
+Inpactor2 does not work on short sequencing reads. It is required that you first assemble the reads (using your favorite assembly program) and then use Inpactor2 on the final assembly.
 
 ## Inpactor2's Output
 <a name="output"/>
