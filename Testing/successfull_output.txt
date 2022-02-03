@@ -1,0 +1,37 @@
+#########################################################################
+#                                                                       #
+# Inpactor2: A software based on deep learning to identify and classify #
+#               LTR-retrotransposons in plant genomes                   #
+#                                                                       #
+#########################################################################
+
+WARNING: Missing threads parameter, using by default: 64
+WARNING: Missing max length parameter, using by default: 28000
+WARNING: Missing min length parameter, using by default: 2000
+WARNING: Missing TG-CA filter parameter, using by default: yes
+WARNING: Missing TSD mismatch number parameter, using by default: yes
+WARNING: Missing curation parameter, using by default: yes
+WARNING: Missing cycles parameter, using by default: 1
+---------------------------------------------------------------------------
+INFO: Doing cycle # 1
+INFO: Splitting input sequences into chunks of size 50000 and converting them into one-hot coding ...
+INFO: Splitting of input sequences done!!!! [time=1.2889959812164307]
+INFO: Predicting which genomic sections contains LTR-RTs...
+INFO: LTR-RTs containing prediction done!!!! [time=1.4535799026489258]
+INFO: Extracting sequences predicted as LTR-RTs ...
+INFO: Extraction done!!!! [time=70.7675530910492]
+INFO: Counting k-mer frequencies using a DNN ...
+INFO: K-mer counting done!!!! [time=1.6313867568969727]
+INFO: Filtering non-intact LTR-retrotransposons ...
+INFO: Filtering done!!!! [time=0.8842012882232666]
+INFO: Predicting the lineages from sequences ...
+INFO: Prediction of the lineages from sequences done!!! [time=0.6172542572021484]
+INFO: Saving cycle results ...
+INFO: Cycle results saved!!! [time=1.366971731185913]
+INFO: Suppressing non-maximal predictions...
+INFO: Non-max suppression done!!! [time=0.0005266666412353516]
+INFO: Creating the prediction descriptions file...
+INFO: Creating output file done!!! [time=0.00014519691467285156]
+INFO: Creating LTR-retrotransposon library...
+INFO: Library created!!! [time=1.046706199645996]
+INFO: Inpactor2 execution done successfully [total time=79.05732107162476]
