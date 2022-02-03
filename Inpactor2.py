@@ -260,9 +260,10 @@ def sequences_extractor_slave(splitted_genome, x, seqs_per_procs, n, remain, out
         i = x * seqs_per_procs + remain
         m = n if i + seqs_per_procs > n else i + seqs_per_procs
 
+    predicted_ids = []
+    predicted_pos = []
+    
     if i < m:
-        predicted_ids = []
-        predicted_pos = []
 
         k = 0  # index of the splitted_genome dataset of this thread
         while i < m and k < len(splitted_genome):
