@@ -2,7 +2,7 @@
 
 ## Table of Contents  
 * [Introduction](#introduction)  
-* [Instalation](#instalation)  
+* [Installation](#installation)  
 * [Testing](#testing)  
 * [Usage](#usage) 
 * [Inputs](#input) 
@@ -29,7 +29,7 @@ Inpactor2 uses neural networks to perform its tasks faster than other software (
 Inpactor2 receives as input a genomic assembly and generates a library of semi-curated and classified LTR-RTs (in fasta format). In addition, it generates a tabular file listing the predictions made by each neural network to verify the confidentiality of each detected LTR-RT. If the RepeatMasker option is active, it will generate the same files as a traditional run of this software.
 
 ## Installation:
-<a name="instalation"/>
+<a name="installation"/>
 
 We highly recommend to use and install Python packages within an Anaconda environment. First, download the lastest version of Inpactor2
 
