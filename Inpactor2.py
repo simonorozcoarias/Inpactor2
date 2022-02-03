@@ -245,7 +245,7 @@ def sequences_extractor_master(splitted_genome_ltr, threads, outputDir, max_len_
             IDsfile.close()
             os.remove(outputDir + '/predicted_ids_' + str(i) + '.txt')
         except FileNotFoundError:
-            print('WARNING: I could not find: ' + outputDir + '/predicted_ids_' + str(i) + '.txt')
+            continue
     pool.close()
 
     return pos_predicted, ids_predicted
@@ -262,7 +262,7 @@ def sequences_extractor_slave(splitted_genome, x, seqs_per_procs, n, remain, out
 
     predicted_ids = []
     predicted_pos = []
-    
+
     if i < m:
 
         k = 0  # index of the splitted_genome dataset of this thread
