@@ -101,15 +101,27 @@ The library will be done in fasta format. Each sequence has a identifier with fo
 >ContainingSequence#LTR/RL[C-G]/PredictedLineage
 ```
 ### Predictions file
-Additionally, The software writes in a file the probabilities obtained by each neural network (Inpactor2_Detect, Inpactor2_Filter and Inpactor2_Class) separated by tabulations. This file will be useful for knowning how reliable were the predictions done by the software. This file has the following columns:
+Additionally, The software writes in a file the probabilities obtained by each neural network (Inpactor2_Detect, Inpactor2_Filter and Inpactor2_Class) separated by tabulations. An example of the predictions file will be seen following:
+
+```
+Chr1	3780765	3785720	4955	RLC/IVANA/ORYCO	0.99999654	0.99999964	0.99986255
+Chr1	7717356	7722547	5191	RLC/IVANA/ORYCO	0.99971956	0.9999194	0.9999558
+Chr1	11789452	11794077	4625	RLC/IVANA/ORYCO	0.9967033	0.99992347	0.99087137
+Chr1	13334465	13339869	5404	RLG/REINA	0.99110717	0.9932672	0.9977406
+Chr1	13507779	13515963	8184	RLG/TEKAY/DEL	1.0	0.99970347	0.99928516
+```
+
+This file has the following columns:
 * Containing sequence
-* LTR-RT initial posicion in the sequence.
+* LTR-RT initial position in the sequence.
 * LTR-RT end position. 
 * LTR-RT length. 
-* Predicted lineage.
+* Predicted superfamily (RLG or RLC) and lineage.
 * Detection's probability obtained by Inpactor2_Detect.
-* Filtering's probability obtained by Inpactor2_Filter.
+* Filtering's probability obtained by Inpactor2_Filter (if the filter option was activated during the execution).
 * Classification's probrability obtained by Inpactor2_Class.
+
+NOTE: This file will be useful for knowning how reliable were the predictions done by the software, and if you desire, remove them with probabilies lower than a given value. Please note that if you want to discard some elements, you need to do it manually since Inpactor2 does not have any function related to it.
 
 ### Annotation output (Repeat Masker, optional)
 Optionally, Inpactor2 can use the library created during program execution to annotate LTR-retrotransposons in plant genomes using Repeat Masker software. Inpactor2 uses the following parameters:  -gff -nolow -no_is -norna. In addition, it will use the same number of cores specified in the -t flag of Inpactor2. This outputs will be generated if the flag "-a yes" is defined in the Inpactor2's execution. Due to the execution of Repeat Masker, five additional files will be created in the output directory indicated with the -o flag:
