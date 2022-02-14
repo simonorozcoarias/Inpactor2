@@ -339,7 +339,7 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
 
         output = subprocess.run(
             ['ltr_finder', '-F', finder_filter, '-D', str(max_len_threshold), '-d', str(min_len_threshold), '-w2', '-C', '-p', '20', '-M', '0.80',
-             outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta'], stdout=subprocess.PIPE, text=True)
+             outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta'], stdout=subprocess.PIPE, text=True, timeout=1500)
 
     except Exception as e:
         print("FATAL ERROR. LTR_finder could not be executed, please re-execute Inpactor2...")
@@ -1018,14 +1018,29 @@ if __name__ == '__main__':
     if annotate.upper() == 'YES':
         print('INFO: Annotating LTR-retrotranposons with RepeatMasker...')
         start = time.time()
+
         result_command = os.system(
             'RepeatMasker -pa ' + str(threads) + ' -lib ' + outputDir + '/Inpactor2_library.fasta '
                                                                         '-dir ' + outputDir + ' -gff -nolow -no_is -norna ' + file)
+
         if result_command != 0:
             print('FATAL ERROR: RepeatMasker failed!!!')
         else:
-            finish = time.time()
-            total_time.append(finish - start)
-            print('INFO: Annotation done!!! [time=' + str(finish - start) + ']')
+
+            # set the PERL env variable to execute buildSummary from RepeatMasker
+            subprocess = subprocess.Popen("echo ${CONDA_PREFIX}", shell=True, stdout=subprocess.PIPE)
+            conda_path = str(subprocess.stdout.read().decode("utf-8")).replace('\n', '')
+            os.environ["PERL5LIB"] =conda_path+"/share/RepeatMasker/"
+
+            genome_name = os.path.basename(file)
+            result_command = os.system(
+                'buildSummary.pl ' + outputDir + '/' + genome_name + '.out > ' + outputDir + '/Inpactor2_anno_summary.txt')
+
+            if result_command != 0:
+                print('FATAL ERROR: buildSummary failed!!! Please check your conda environment.')
+            else:
+                finish = time.time()
+                total_time.append(finish - start)
+                print('INFO: Annotation done!!! [time=' + str(finish - start) + ']')
 
     print('INFO: Inpactor2 execution done successfully [total time=' + str(sum(total_time)) + ']')
