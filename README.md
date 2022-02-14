@@ -125,6 +125,7 @@ NOTE: This file will be useful for knowning how reliable were the predictions do
 
 ### Annotation output (Repeat Masker, optional)
 Optionally, Inpactor2 can use the library created during program execution to annotate LTR-retrotransposons in plant genomes using Repeat Masker software. Inpactor2 uses the following parameters:  -gff -nolow -no_is -norna. In addition, it will use the same number of cores specified in the -t flag of Inpactor2. This outputs will be generated if the flag "-a yes" is defined in the Inpactor2's execution. Due to the execution of Repeat Masker, five additional files will be created in the output directory indicated with the -o flag:
+* Inpactor2_anno_summary.txt (The results of the Repeat Masker' script buildSummary.pl)
 * genome_file.fasta.masked
 * genome_file.fasta.cat.gz
 * genome_file.fasta.out
