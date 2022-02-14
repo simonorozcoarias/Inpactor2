@@ -132,7 +132,7 @@ Optionally, Inpactor2 can use the library created during program execution to an
 * genome_file.fasta.out.gff
 * genome_file.fasta.tbl
 
-Where "genome_file.fasta" is the name of the input genome used in Inpactor2.
+Where "genome_file.fasta" is the name of the input genome used in Inpactor2. For more information about RepeatMasker outputs and its operation, please consult its documentation: https://www.repeatmasker.org/webrepeatmaskerhelp.html
 
 # Inpactor2_utils
 <a name="inpactor2_utils"/>
