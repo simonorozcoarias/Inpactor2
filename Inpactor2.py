@@ -22,11 +22,11 @@ import numpy as np
 
 
 # Uncomment the following lines for working in Nvidia RTX 2080 super
-#from tensorflow.compat.v1 import ConfigProto
-#from tensorflow.compat.v1 import InteractiveSession
-#config = ConfigProto()
-#config.gpu_options.allow_growth = True
-#session = InteractiveSession(config=config)
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+config = ConfigProto()
+config.gpu_options.allow_growth = True
+session = InteractiveSession(config=config)
 
 """
 These functions are used to calculated performance metrics
@@ -326,7 +326,7 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
     seq1file.close()
 
     try:
-        # execute LTR_Finder in orde to find start and end positions of the LTR-RTs
+        # execute LTR_Finder in order to find start and end positions of the LTR-RTs
         if tg_ca:
             finder_filter = '1111'
         else:
@@ -338,8 +338,9 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
         finder_filter += '000000'
 
         output = subprocess.run(
-            ['ltr_finder', '-F', finder_filter, '-D', str(max_len_threshold), '-d', str(min_len_threshold), '-w2', '-C', '-p', '20', '-M', '0.80',
-             outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta'], stdout=subprocess.PIPE, text=True, timeout=1500)
+            ['ltr_finder', '-F', finder_filter, '-D', str(max_len_threshold), '-d', str(min_len_threshold), '-w2', '-C',
+            '-p', '20', '-M', '0.80', '-L', '7000', '-l', '100', outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta'],
+            stdout=subprocess.PIPE, text=True, timeout=1500)
 
     except Exception as e:
         print("FATAL ERROR. LTR_finder could not be executed, please re-execute Inpactor2...")
@@ -688,13 +689,13 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--annotate', required=False, dest='annotate',
                         help='Annotate LTR retrotransposons? [yes or not]. Default: yes')
     parser.add_argument('-m', '--max-len', required=False, dest='max_len_threshold',
-                        help='Maximum length for detecting LTR-retrotransposons [1-50000]. Default: 28000')
+                        help='Maximum length for detecting LTR-retrotransposons [1-50000]. Default: 15000')
     parser.add_argument('-n', '--min-len', required=False, dest='min_len_threshold',
-                        help='Minimum length for detecting LTR-retrotransposons [1-50000]. Default: 2000')
+                        help='Minimum length for detecting LTR-retrotransposons [1-50000]. Default: 1000')
     parser.add_argument('-i', '--tg-ca', required=False, dest='tg_ca',
-                        help='Keep only elements with TG-CA-LTRs? [yes or no]. Default: yes')
+                        help='Keep only elements with TG-CA-LTRs? [yes or no]. Default: no')
     parser.add_argument('-d', '--tsd', required=False, dest='TSD',
-                        help='Keep only elements with TDS? [yes or no]. Default: yes')
+                        help='Keep only elements with TDS? [yes or no]. Default: no')
     parser.add_argument('-c', '--curated', required=False, dest='curation',
                         help='keep on only intact elements? [yes or no]. Default: yes')
     parser.add_argument('-C', '--cycles', required=False, dest='cycles',
@@ -742,24 +743,24 @@ if __name__ == '__main__':
         print('FATAL ERROR: unknown value of -a parameter: ' + annotate + '. This parameter must be yes or no')
         sys.exit(0)
     if max_len_threshold is None:
-        max_len_threshold = 28000
-        print("WARNING: Missing max length parameter, using by default: 28000")
+        max_len_threshold = 15000
+        print("WARNING: Missing max length parameter, using by default: 15000")
     elif int(max_len_threshold) > 50000 or int(max_len_threshold) < 1:
         print('FATAL ERROR: max length parameter must be between 1 and 50000')
         sys.exit(0)
     else:
         max_len_threshold = int(max_len_threshold)
     if min_len_threshold is None:
-        min_len_threshold = 2000
-        print("WARNING: Missing min length parameter, using by default: 2000")
+        min_len_threshold = 1000
+        print("WARNING: Missing min length parameter, using by default: 1000")
     elif int(min_len_threshold) > 50000 or int(min_len_threshold) < 1:
         print('FATAL ERROR: min length parameter must be between 1 and 50000')
         sys.exit(0)
     else:
         min_len_threshold = int(min_len_threshold)
     if tg_ca is None:
-        tg_ca = True
-        print("WARNING: Missing TG-CA filter parameter, using by default: yes")
+        tg_ca = False
+        print("WARNING: Missing TG-CA filter parameter, using by default: no")
     elif tg_ca.upper() not in ['YES', 'NO']:
         print('FATAL ERROR: unknown value of -i parameter: ' + tg_ca + '. This parameter must be yes or no')
         sys.exit(0)
@@ -769,8 +770,8 @@ if __name__ == '__main__':
         else:
             tg_ca = False
     if TSD is None:
-        TSD = True
-        print("WARNING: Missing TSD mismatch number parameter, using by default: yes")
+        TSD = False
+        print("WARNING: Missing TSD mismatch number parameter, using by default: no")
     elif TSD.upper() not in ['YES', 'NO']:
         print('FATAL ERROR: unknown value of -d parameter: ' + TSD + '. This parameter must be yes or no')
         sys.exit(0)
