@@ -112,6 +112,7 @@ Chr1	13507779	13515963	8184	RLG/TEKAY/DEL	1.0	0.99970347	0.99928516
 ```
 
 This file has the following columns:
+
 * Containing sequence
 * LTR-RT initial position in the sequence.
 * LTR-RT end position. 
