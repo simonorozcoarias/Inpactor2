@@ -213,9 +213,11 @@ To improve the reproducibility, a directory named "NN_architectures" is availabl
 # For advance GPU users only
 <a name="gpu_users"/>
 If when running Inpactor2 using GPU (especially on Nvidia RTX 2080 super) you get an error message similar to the following:
+
 ```
 .... Failed to get convolution algorithm. This is probably because cuDNN failed to initialize ....
 ```
+
 Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#' character at the beginning of each line. This is caused by a issue in the GPU and Tensorflow framework.
 
 # References and similar works
