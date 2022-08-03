@@ -6,7 +6,8 @@
 * [Testing](#testing)  
 * [Usage](#usage) 
 * [Inputs](#input) 
-* [Outputs](#output) 
+* [Outputs](#output)
+* [Inpactor2's cycles of analysis](#cycles) 
 * [Inpactor2_utils](#inpactor2_utils) 
 * * [K-mer counting utility](#inpactor2_utils_kmer) 
 * * [CLASSIFY utility](#inpactor2_utils_classify) 
@@ -134,6 +135,15 @@ Optionally, Inpactor2 can use the library created during program execution to an
 * genome_file.fasta.tbl
 
 Where "genome_file.fasta" is the name of the input genome used in Inpactor2. For more information about RepeatMasker outputs and its operation, please consult its documentation: https://www.repeatmasker.org/webrepeatmaskerhelp.html
+
+# Inpactor2's cycles of analysis
+<a name="cycles"/>
+
+Although Inpactor2 approach overcomes most of the challenges, there is still an issue with dividing the sequences into segments, because some elements could be split and thus the structure-based approach would not be able to detect them. However, in LTR_FINDER_PARALLEL tool is proposed that most of these undetected LTR-RTs are represented by complete copies identified in other segments, with a loss of less than 1 %. Additionally, in order to reduce this problem as much as possible, the approach proposed in this tool can be executed in different cycles (from 1 to 5), where each cycle divides differently the input sequences (see figure below) in order to predict the elements that remain split in any of the partitions. At the end, the result of all the cycles are unified, eliminating those elements detected in more than one cycle.
+
+<p align="center">
+  <img src="https://github.com/simonorozcoarias/Inpactor2/blob/main/NN_architectures/Inpctor2_cycles.png">
+</p>
 
 # Inpactor2_utils
 <a name="inpactor2_utils"/>
