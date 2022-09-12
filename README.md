@@ -176,7 +176,8 @@ Where -o output_directory is a folder where Inpactor2 will put final results (it
 
 ### CLASSIFY utility  
 <a name="inpactor2_utils_classify"/>
-This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage/family name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names: 
+This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage/family name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names:
+
 * ALE-
 * ALESIA-
 * RETROFIT-
