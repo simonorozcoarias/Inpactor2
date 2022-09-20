@@ -8,6 +8,7 @@
 * [Inputs](#input) 
 * [Outputs](#output)
 * [Inpactor2's cycles of analysis](#cycles) 
+* [Resources needed](#Resources)
 * [Inpactor2_utils](#inpactor2_utils) 
 * * [K-mer counting utility](#inpactor2_utils_kmer) 
 * * [CLASSIFY utility](#inpactor2_utils_classify) 
@@ -144,6 +145,18 @@ Although Inpactor2 approach overcomes most of the challenges, there is still an 
 <p align="center">
   <img src="https://github.com/simonorozcoarias/Inpactor2/blob/main/NN_architectures/Inpctor2_cycles.png">
 </p>
+
+## Resources needed by Inpactor2
+<a name="Resources"/>
+Inpactor2 uses heterogeneous architectures to execute as fast as possible the detection of LTR-RTs. Therefore, Inpactor2 uses CPUs (using the -t option), RAM, disk and GPU (if available and accessible by Tensorflow). If the server where Inpactor2 is running does not have GPU, the program will use only CPU and may take a little longer. In order to allow the user to estimate the resources required to run Inpactor2, we have run Inpactor2 with plants of different sizes and ratios of LTR-RTs. All these executions were done using a Workstation with 64 threads, a 8 Gb GPU Nvidia RTX 2080 super, with SSD and 128 Gb of RAM.
+
+
+| Species | Genome size (Mb)  | Number of LTR-RTs | Time (Sec) | Max Ram used (Gb) | Max disk usage (Mb) |
+| :------------: |:---------------:| :-----:| :-----:|  :-----:|  :-----:| 
+| A. thaliana | 115 | 107 | 179.60 | 3.00 | 571.48 |
+| O. sativa | 358 | 1090 | 328.54 | 0.86 | 1794.81 |
+| C. canephora | 553 | 730 | 345.12 | 5.07 | 2718.68 |
+| S. lycopersicum | 791 |  | 855.31 |  | 4641.29 |
 
 # Inpactor2_utils
 <a name="inpactor2_utils"/>
