@@ -153,8 +153,8 @@ Inpactor2 uses heterogeneous architectures to execute as fast as possible the de
 
 | Species | Genome size (Mb)  | Number of LTR-RTs | Time (Sec) | Max Ram used (Gb) | Max disk usage (Mb) |
 | :------------: |:---------------:| :-----:| :-----:|  :-----:|  :-----:| 
-| A. thaliana | 115 | 107 | 179.60 | 3.00 | 571.48 |
-| O. sativa | 358 | 1090 | 328.54 | 0.86 | 1794.81 |
+| A. thaliana | 115 | 107 | 179.60 | 0.86 | 571.48 |
+| O. sativa | 358 | 1090 | 328.54 | 3.00 | 1794.81 |
 | C. canephora | 553 | 730 | 345.12 | 5.07 | 2718.68 |
 | S. lycopersicum | 791 | 1401 | 855.31 | 8.87 | 4641.29 |
 | C. arabica | 1126,4 | 3656 | 1568.59 | 9.97 | 5610.94 |
