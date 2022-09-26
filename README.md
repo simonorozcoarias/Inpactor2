@@ -157,8 +157,8 @@ Inpactor2 uses heterogeneous architectures to execute as fast as possible the de
 | O. sativa | 358 | 1090 | 328.54 | 3.00 | 1794.81 |
 | C. canephora | 553 | 730 | 345.12 | 5.07 | 2718.68 |
 | S. lycopersicum | 791 | 1401 | 855.31 | 8.87 | 4641.29 |
-| C. arabica | 1126,4 | 3656 | 1568.59 | 9.97 | 5610.94 |
-| Z. mays | 2150,4 |  | 10,512.24 |  | 10,487.07 |
+| C. arabica | 1126.4 | 3656 | 1568.59 | 9.97 | 5610.94 |
+| Z. mays | 2150.4 | 35,274 | 10,512.24 | 24.80 | 10,487.07 |
 
 # Inpactor2_utils
 <a name="inpactor2_utils"/>
