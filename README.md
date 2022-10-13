@@ -8,7 +8,7 @@
 * [Inputs](#input) 
 * [Outputs](#output)
 * [Inpactor2's cycles of analysis](#cycles) 
-* [Resources needed](#Resources)
+* [Computacional resources needed](#Resources)
 * [Inpactor2_utils](#inpactor2_utils) 
 * * [K-mer counting utility](#inpactor2_utils_kmer) 
 * * [CLASSIFY utility](#inpactor2_utils_classify) 
@@ -146,7 +146,7 @@ Although Inpactor2 approach overcomes most of the challenges, there is still an 
   <img src="https://github.com/simonorozcoarias/Inpactor2/blob/main/NN_architectures/Inpctor2_cycles.png">
 </p>
 
-## Resources needed by Inpactor2
+## Computational resources needed by Inpactor2
 <a name="Resources"/>
 Inpactor2 uses heterogeneous architectures to execute as fast as possible the detection of LTR-RTs. Therefore, Inpactor2 uses CPUs (using the -t option), RAM, disk and GPU (if available and accessible by Tensorflow). If the server where Inpactor2 is running does not have GPU, the program will use only CPU and may take a little longer. In order to allow the user to estimate the resources required to run Inpactor2, we have run Inpactor2 with plants of different sizes and ratios of LTR-RTs. All these executions were done using a Workstation with 64 threads, a 8 Gb GPU Nvidia RTX 2080 super, with SSD and 128 Gb of RAM.
 
