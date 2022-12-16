@@ -17,6 +17,7 @@
 * [For advance GPU users only](#gpu_users)
 * [References and related works](#references) 
 * [Other useful resources](#resources) 
+* [Citation](#citation)
 
 ## Introduction
 <a name="introduction"/>
@@ -266,3 +267,9 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * LTR retrotransposon classification experiments using ML: [ML experiments github](https://github.com/simonorozcoarias/MachineLearningInTEs)
 * Plant LTR retrotransposon reference library: [InpactorDB dataset](https://zenodo.org/record/5816833#.YdRXUXWZNH4)
 * Dataset of genomic features other than LTR-RTs: [Negative Instances dataset](https://zenodo.org/record/4543905#.YdRXpnWZNH4)
+
+# Citation
+<a name="citation"/>
+if you use this software, or any part of it (as the neural network architectures, functions, etc), please cite us as following:
+
+Orozco-Arias, S., Humberto Lopez-Murillo, L., Candamil-Cortés, M. S., Arias, M., Jaimes, P. A., Rossi Paschoal, A., ... & Guyot, R. (2022). Inpactor2: a software based on deep learning to identify and classify LTR-retrotransposons in plant genomes. Briefings in Bioinformatics.
