@@ -167,7 +167,7 @@ dependencies:
   - perl-uri=1.76=pl526_0
   - perl-www-robotrules=6.02=pl526_3
   - perl-xml-namespacesupport=1.12=pl526_0
-  - perl-xml-parser=2.44=4
+  - perl-xml-parser
   - perl-xml-sax=1.02=pl526_0
   - perl-xml-sax-base=1.09=pl526_0
   - perl-xml-sax-expat=0.51=pl526_3
@@ -230,4 +230,3 @@ dependencies:
   - pip:
     - focal-loss==0.0.7
     - scipy==1.4.1
-prefix: /home/bioml/anaconda3/envs/Inpactor2
