@@ -138,7 +138,7 @@ Optionally, Inpactor2 can use the library created during program execution to an
 
 Where "genome_file.fasta" is the name of the input genome used in Inpactor2. For more information about RepeatMasker outputs and its operation, please consult its documentation: https://www.repeatmasker.org/webrepeatmaskerhelp.html
 
-# Inpactor2's cycles of analysis
+## Inpactor2's cycles of analysis
 <a name="cycles"/>
 
 Although Inpactor2 approach overcomes most of the challenges, there is still an issue with dividing the sequences into segments, because some elements could be split and thus the structure-based approach would not be able to detect them. However, in LTR_FINDER_PARALLEL tool is proposed that most of these undetected LTR-RTs are represented by complete copies identified in other segments, with a loss of less than 1 %. Additionally, in order to reduce this problem as much as possible, the approach proposed in this tool can be executed in different cycles (from 1 to 5), where each cycle divides differently the input sequences (see figure below) in order to predict the elements that remain split in any of the partitions. At the end, the result of all the cycles are unified, eliminating those elements detected in more than one cycle.
@@ -232,12 +232,12 @@ python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multiou
 ```
 Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), and multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software.
 
-# Neural network Architectures
+## Neural network Architectures
 <a name="architectures"/>
 
 To improve the reproducibility, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
-# For advance GPU users only
+## For advance GPU users only
 <a name="gpu_users"/>
 If when running Inpactor2 using GPU (especially on Nvidia RTX 2080 super) you get an error message similar to the following:
 
@@ -247,7 +247,7 @@ If when running Inpactor2 using GPU (especially on Nvidia RTX 2080 super) you ge
 
 Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#' character at the beginning of each line. This is caused by a issue in the GPU and Tensorflow framework.
 
-# References and similar works
+## References and similar works
 <a name="references"/>
 
 * Orozco-Arias, S., Liu, J., Tabares-Soto, R., Ceballos, D., Silva Domingues, D., Garavito, A., ... & Guyot, R. (**2018**). Inpactor, integrated and parallel analyzer and classifier of LTR retrotransposons and its application for pineapple LTR retrotransposons diversity and dynamics. Biology, 7(2), 32.
@@ -260,7 +260,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Orozco-Arias, S., Candamil-Cortés, M. S., Valencia-Castrillón, E., Jaimes, P. A., Tobón Orozco, N., Arias-Mendoza, M., Tabares-Soto, R., Guyot, R., & Isaza, G. (**2021**). SENMAP: A Convolutional Neural Network Architecture for Curation of LTR-RT Libraries from Plant Genomes. In 2021 IEEE 2nd International Congress of Biomedical Engineering and Bioengineering (CI-IB&BI) (pp. 1-4). IEEE.
 * Orozco-Arias, S., Candamil-Cortes, M. S., Jaimes, P. A., Valencia-Castrillon, E., Tabares-Soto, R., Isaza, G., & Guyot, R. (**2022**). Automatic curation of LTR retrotransposon libraries from plant genomes through machine learning. Journal of Integrative Bioinformatics.
 
-# Other useful resourcers
+## Other useful resourcers
 <a name="resources"/>
 
 * Inpactor version 1 (non-DL implementation): [Inpactor V1 github](https://github.com/simonorozcoarias/Inpactor)
@@ -268,7 +268,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Plant LTR retrotransposon reference library: [InpactorDB dataset](https://zenodo.org/record/5816833#.YdRXUXWZNH4)
 * Dataset of genomic features other than LTR-RTs: [Negative Instances dataset](https://zenodo.org/record/4543905#.YdRXpnWZNH4)
 
-# Citation
+## Citation
 <a name="citation"/>
 if you use this software, or any part of it (as the neural network architectures, functions, etc), please cite us as following:
 
