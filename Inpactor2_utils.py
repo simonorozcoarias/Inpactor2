@@ -560,7 +560,7 @@ if __name__ == '__main__':
         k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
 
         # To call the deep neural network
-        retraining_class(outputDir+'/'+file_name+'.kmers', outputDir)
+        retraining_class(outputDir+'/'+fastafile+'.kmers', outputDir)
 
     ##################################################################################
     # Third Util: filtering characters that are not nucleotides (A, C, G, T or N)
