@@ -557,10 +557,10 @@ if __name__ == '__main__':
         elif lineage_names.upper() not in ['YES', 'NO']:
             print('FATAL ERROR: Incorrect value for -l or --lineage-names parameter: '+lineage_names+'. Must be yes or not. Existing')
             sys.exit(0)
-        #k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
+        k_mer_counting(fastafile, outputDir, total_win_len, lineage_names)
 
         # To call the deep neural network
-        retraining_class('/home/bioml/Projects/PhD/OE2/Repo/Inpactor2/test1/InpactorDB_non_redundant_final_V4.fasta.filtered.kmers', outputDir)
+        retraining_class(outputDir+'/'+file_name+'.kmers', outputDir)
 
     ##################################################################################
     # Third Util: filtering characters that are not nucleotides (A, C, G, T or N)
