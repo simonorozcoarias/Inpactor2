@@ -102,15 +102,19 @@ def metrics(Y_validation,predictions):
     print('Precision:', precision_score(Y_validation, predictions, average='weighted'))
     print('\n clasification report:\n', classification_report(Y_validation, predictions))
     print('\n confusion matrix:\n',confusion_matrix(Y_validation, predictions))
-    #Creamos la matriz de confusión
-    snn_cm = confusion_matrix(Y_validation, predictions)
+    
+    try:
+        #Creamos la matriz de confusión
+        snn_cm = confusion_matrix(Y_validation, predictions)
 
-    # Visualizamos la matriz de confusión
-    snn_df_cm = pd.DataFrame(snn_cm, range(classes), range(classes))
-    plt.figure(figsize = (20,14))
-    sn.set(font_scale=1.4) #for label size
-    sn.heatmap(snn_df_cm, annot=True, annot_kws={"size": 12}) # font size
-    plt.show()
+        # Visualizamos la matriz de confusión
+        snn_df_cm = pd.DataFrame(snn_cm, range(classes), range(classes))
+        plt.figure(figsize = (20,14))
+        sn.set(font_scale=1.4) #for label size
+        sn.heatmap(snn_df_cm, annot=True, annot_kws={"size": 12}) # font size
+        plt.show()
+    except:
+        print("MESSAGE: confusion matrix couldn't be generated because the real labels and predicted levels are different. It can be caused due to a very small data set.")
 
 
 def graphics(history, AccTest, LossTest, log_Dir, model_Name, lossTEST, lossTRAIN, lossVALID, accuracyTEST,
