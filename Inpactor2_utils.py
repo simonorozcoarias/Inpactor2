@@ -465,7 +465,7 @@ def retraining_class(kmer_file, outputDir):
     metrics(Y_test, [argmax(x) for x in predictions])
 
     shutil.move(log_dir + '/'+B_name, outputDir+'/Inpactor_Class.hdf5')
-    os.rmdir(log_dir)
+    shutil.rmtree(log_dir)
 
 """
 This function deletes all characters that are no DNA (A, C, G, T, N)
