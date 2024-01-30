@@ -20,8 +20,6 @@
 * [Citation](#citation)
 
 ## Introduction
-<a name="introduction"/>
-
 Inpactor2 was designed and developed to detect reference LTR retrotransposons (LTR-RTs), filtering out those elements that correspond to fragments or have nested insertions. In addition, Inpactor2 classifies LTR-RTs down to the lineage/family level. Optionally, this tool annotates the elements discovered through RepeatMasker.
 
 Inpactor2 uses neural networks to perform its tasks faster than other software (up to 7 times faster), accurately while maintaining high sensitivity and a low false positive rate.
@@ -33,8 +31,6 @@ Inpactor2 uses neural networks to perform its tasks faster than other software (
 Inpactor2 receives as input a genomic assembly and generates a library of semi-curated and classified LTR-RTs (in fasta format). In addition, it generates a tabular file listing the predictions made by each neural network to verify the confidentiality of each detected LTR-RT. If the RepeatMasker option is active, it will generate the same files as a traditional run of this software.
 
 ## Installation:
-<a name="installation"/>
-
 We highly recommend to use and install Python packages within an Anaconda environment. First, download the lastest version of Inpactor2
 
 ```
@@ -46,8 +42,6 @@ conda env create -f Inpactor2/Inpactor2.yml
 ```
 
 ## Testing:
-<a name="testing"/>
-
 After successfully installing Inpactor2, you can test it using the testing data contained in this repository. To do so, first you must activate the conda environment:
 ```
 conda activate Inpactor2
@@ -59,8 +53,6 @@ python3 Inpactor2.py -f Testing/toy_genome.fasta -o Testing/toy_execution -a no
 Finally compare your results in the folder Testing/toy_execution with the files in the folder Testing 'Inpactor2_library_successfull_run.fasta' and 'Inpactor2_predictions_successfull_run.tab'. If you obtain similar (or also the same) results, congrats! Inpactor2 is now installed and funcional.
 
 ## Usage:
-<a name="usage"/>
-
 Activate the anaconda environment:
 ```
 conda activate Inpactor2
@@ -87,15 +79,11 @@ Please note that the unique required parameter is -f (the genome file in fasta f
 It is highly recommended to create and use an output directory in each execution to avoid the substitution of result files from different runs of Inpactor2.
 
 ## Inpactor2's Input
-<a name="input"/>
-
 The input required for Inpactor2 is a fasta file containing an assembly of the genome of the species to be analyzed. It is important to mention that the quality of Inpactor2 results depends directly on the input data. If the input genome has a very low N50 (less than 10-20 kb), contains a lot of Ns, or it is very fragmented it is possible that Inpactor2 will not detect LTR-RTs.
 
 Inpactor2 does not work on short sequencing reads. It is required that you first assemble the reads (using your favorite assembly program) and then use Inpactor2 on the final assembly.
 
 ## Inpactor2's Output
-<a name="output"/>
-
 Inpactor2 produces two main outputs: a library of LTR-retrotransposons called "Inpactor2_library.fasta" and a file with the predictions of each neural network in a tabular format named "Inpactor2_predictions.tab".
 
 ### LTR-retrotransposon library
@@ -139,8 +127,6 @@ Optionally, Inpactor2 can use the library created during program execution to an
 Where "genome_file.fasta" is the name of the input genome used in Inpactor2. For more information about RepeatMasker outputs and its operation, please consult its documentation: https://www.repeatmasker.org/webrepeatmaskerhelp.html
 
 ## Inpactor2's cycles of analysis
-<a name="cycles"/>
-
 Although Inpactor2 approach overcomes most of the challenges, there is still an issue with dividing the sequences into segments, because some elements could be split and thus the structure-based approach would not be able to detect them. However, in LTR_FINDER_PARALLEL tool is proposed that most of these undetected LTR-RTs are represented by complete copies identified in other segments, with a loss of less than 1 %. Additionally, in order to reduce this problem as much as possible, the approach proposed in this tool can be executed in different cycles (from 1 to 5), where each cycle divides differently the input sequences (see figure below) in order to predict the elements that remain split in any of the partitions. At the end, the result of all the cycles are unified, eliminating those elements detected in more than one cycle.
 
 <p align="center">
@@ -162,8 +148,6 @@ Inpactor2 uses heterogeneous architectures to execute as fast as possible the de
 | Z. mays | 2150.4 | 35,274 | 10,512.24 | 24.80 | 10,487.07 |
 
 # Inpactor2_utils
-<a name="inpactor2_utils"/>
-
 In addition to the main component of Inpactor2, Inpactor2_utils.py contains utilities in the LTR-RT analysis, such as delete characters different from nucleotides (A, C, T, G or N), calculate k-mer frequencies with 1 <= k <= 6, and re-train Inpactor2_Class to specialize the neural network for a certain group of species. 
 
 ## Usage
@@ -181,7 +165,6 @@ Where the options are the following:
 
 ## Inpactor2_utils Execution
 ### k-mer counting utility  
-<a name="inpactor2_utils_kmer"/>
 This utility allows users to count k-mer frequencies in nucleotide sequences from 1 <= k <= 6 through a convolutional neural network called "Inpactor2_K-mers" in a time-efficient way.
 
 To use this utility, execute:
@@ -191,7 +174,6 @@ python3 Inpactor2_utils.py -u KMER -o output_directory -t num_cores -f multiseq_
 Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software, and -l flag indicates if your multiseq_file.fasta contains the lineage/family classification of each LTR-RT (see CLASSIFY utility to get more information about them).
 
 ### CLASSIFY utility  
-<a name="inpactor2_utils_classify"/>
 This utility lets users to re-train Inpactor2_Class neural network with custom LTR-RT libraries. This library must be in fasta format and sequence's IDs have to contain the lineage/family name followed by "-". Example: ">SIRE-NC_587496_58_17". Inpactor2_Class can receive the next lineage names:
 
 * ALE-
@@ -223,7 +205,6 @@ python3 Inpactor2_utils.py -u CLASSIFY -o output_directory -t num_cores -f multi
 Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), and multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software.
 
 ### Sequence filter utility
-<a name="inpactor2_utils_filter"/>
 To avoid a possible error in Inpactor2 caused by a non-nucleotide character (a character different than A, C, T, G or N), This utility removes all those characters. The scripts produces a file with the same name of the input, but adding the extension ".filtered". This output can be used in Inpactor2.
 
 To use this utility, please run:
@@ -233,12 +214,10 @@ python3 Inpactor2_utils.py -u FILTER -o output_directory -t num_cores -f multiou
 Where -o output_directory is a folder where Inpactor2 will put final results (it must exists before running the script), num_cores is the number of cores available in your system (by default it will use all cores), and multiseq_file.fasta is the fasta file that contains all the sequencies which will be analyze by the software.
 
 ## Neural network Architectures
-<a name="architectures"/>
 
 To improve the reproducibility, a directory named "NN_architectures" is available with the four neural network architectures in jupyter notebooks. Thus, users can use whole or sections of the Inpactor2's netoworks, re-train the neural networks with their own data or reproduce the results shown.
 
 ## For advance GPU users only
-<a name="gpu_users"/>
 If when running Inpactor2 using GPU (especially on Nvidia RTX 2080 super) you get an error message similar to the following:
 
 ```
@@ -248,7 +227,6 @@ If when running Inpactor2 using GPU (especially on Nvidia RTX 2080 super) you ge
 Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#' character at the beginning of each line. This is caused by a issue in the GPU and Tensorflow framework.
 
 ## References and similar works
-<a name="references"/>
 
 * Orozco-Arias, S., Liu, J., Tabares-Soto, R., Ceballos, D., Silva Domingues, D., Garavito, A., ... & Guyot, R. (**2018**). Inpactor, integrated and parallel analyzer and classifier of LTR retrotransposons and its application for pineapple LTR retrotransposons diversity and dynamics. Biology, 7(2), 32.
 * Orozco-Arias, S., Isaza, G., & Guyot, R. (**2019**). Retrotransposons in plant genomes: structure, identification, and classification through bioinformatics and machine learning. International journal of molecular sciences, 20(15), 3837.
@@ -261,7 +239,6 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Orozco-Arias, S., Candamil-Cortes, M. S., Jaimes, P. A., Valencia-Castrillon, E., Tabares-Soto, R., Isaza, G., & Guyot, R. (**2022**). Automatic curation of LTR retrotransposon libraries from plant genomes through machine learning. Journal of Integrative Bioinformatics.
 
 ## Other useful resourcers
-<a name="resources"/>
 
 * Inpactor version 1 (non-DL implementation): [Inpactor V1 github](https://github.com/simonorozcoarias/Inpactor)
 * LTR retrotransposon classification experiments using ML: [ML experiments github](https://github.com/simonorozcoarias/MachineLearningInTEs)
@@ -269,7 +246,6 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Dataset of genomic features other than LTR-RTs: [Negative Instances dataset](https://zenodo.org/record/4543905#.YdRXpnWZNH4)
 
 ## Citation
-<a name="citation"/>
 if you use this software, or any part of it (as the neural network architectures, functions, etc), please cite us as following:
 
 
