@@ -239,6 +239,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 
 ## Other useful resourcers
 
+* SENMAP, a DL software to curate LTR-retrotransposons in plants: [SENMAP](https://github.com/simonorozcoarias/SENMAP)
 * Inpactor version 1 (non-DL implementation): [Inpactor V1 github](https://github.com/simonorozcoarias/Inpactor)
 * LTR retrotransposon classification experiments using ML: [ML experiments github](https://github.com/simonorozcoarias/MachineLearningInTEs)
 * Plant LTR retrotransposon reference library: [InpactorDB dataset](https://zenodo.org/record/5816833#.YdRXUXWZNH4)
