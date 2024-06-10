@@ -354,7 +354,7 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
         # to avoid the six first and the last two lines of LTR_finder results
         for hit in hits[6:-3]:
             columns = hit.split('\t')
-            element_int = int(columns[2].split('-')[0])
+            element_int = int(columns[2].split('-')[0]) - 1  # to solve a bug
             element_end = int(columns[2].split('-')[1])
             bestHits.append([element_int, element_end])
 
