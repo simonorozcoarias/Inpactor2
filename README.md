@@ -244,6 +244,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Inpactor version 1 (non-DL implementation): [Inpactor V1 github](https://github.com/simonorozcoarias/Inpactor)
 * LTR retrotransposon classification experiments using ML: [ML experiments github](https://github.com/simonorozcoarias/MachineLearningInTEs)
 * Plant LTR retrotransposon reference library: [InpactorDB dataset](https://zenodo.org/record/5816833#.YdRXUXWZNH4)
+* Graphical interface for searching in InpactorDB database: [InpactorDB GUI](https://inpactordb.github.io) 
 * Dataset of genomic features other than LTR-RTs: [Negative Instances dataset](https://zenodo.org/record/4543905#.YdRXpnWZNH4)
 
 ## Citation
