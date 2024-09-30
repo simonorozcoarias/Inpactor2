@@ -236,6 +236,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Orozco-Arias, S., Candamil-Cortes, M. S., Jaimes, P. A., Valencia-Castrillon, E., Tabares-Soto, R., Guyot, R., & Isaza, G. (**2021**). Deep Neural Network to Curate LTR Retrotransposon Libraries from Plant Genomes. In International Conference on Practical Applications of Computational Biology & Bioinformatics (pp. 85-94). Springer, Cham.
 * Orozco-Arias, S., Candamil-Cortés, M. S., Valencia-Castrillón, E., Jaimes, P. A., Tobón Orozco, N., Arias-Mendoza, M., Tabares-Soto, R., Guyot, R., & Isaza, G. (**2021**). SENMAP: A Convolutional Neural Network Architecture for Curation of LTR-RT Libraries from Plant Genomes. In 2021 IEEE 2nd International Congress of Biomedical Engineering and Bioengineering (CI-IB&BI) (pp. 1-4). IEEE.
 * Orozco-Arias, S., Candamil-Cortes, M. S., Jaimes, P. A., Valencia-Castrillon, E., Tabares-Soto, R., Isaza, G., & Guyot, R. (**2022**). Automatic curation of LTR retrotransposon libraries from plant genomes through machine learning. Journal of Integrative Bioinformatics.
+* Orozco-Arias, S., Lopez-Murillo, L. H., Piña, J. S., Valencia-Castrillon, E., Tabares-Soto, R., Castillo-Ossa, L., Isaza, G., & Guyot, R. (**2023**). Genomic object detection: An improved approach for transposable elements detection and classification using convolutional neural networks. Plos one, 18(9), e0291925.
 
 ## Other useful resourcers
 
