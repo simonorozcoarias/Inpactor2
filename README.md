@@ -237,6 +237,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Orozco-Arias, S., Candamil-Cortés, M. S., Valencia-Castrillón, E., Jaimes, P. A., Tobón Orozco, N., Arias-Mendoza, M., Tabares-Soto, R., Guyot, R., & Isaza, G. (**2021**). SENMAP: A Convolutional Neural Network Architecture for Curation of LTR-RT Libraries from Plant Genomes. In 2021 IEEE 2nd International Congress of Biomedical Engineering and Bioengineering (CI-IB&BI) (pp. 1-4). IEEE.
 * Orozco-Arias, S., Candamil-Cortes, M. S., Jaimes, P. A., Valencia-Castrillon, E., Tabares-Soto, R., Isaza, G., & Guyot, R. (**2022**). Automatic curation of LTR retrotransposon libraries from plant genomes through machine learning. Journal of Integrative Bioinformatics.
 * Orozco-Arias, S., Lopez-Murillo, L. H., Piña, J. S., Valencia-Castrillon, E., Tabares-Soto, R., Castillo-Ossa, L., Isaza, G., & Guyot, R. (**2023**). Genomic object detection: An improved approach for transposable elements detection and classification using convolutional neural networks. Plos one, 18(9), e0291925.
+* Orozco-Arias, S., Gaviria-Orrego, S., Tabares-Soto, R., Isaza, G., & Guyot, R. (**2023**). InpactorDB: A Plant LTR Retrotransposon Reference Library. In Plant Genomic and Cytogenetic Databases (pp. 31-44). New York, NY: Springer US.
 
 ## Other useful resourcers
 
@@ -244,7 +245,7 @@ Try to uncomment the lines from 25 to 29 of Inpactor2.py script, removing the '#
 * Inpactor version 1 (non-DL implementation): [Inpactor V1 github](https://github.com/simonorozcoarias/Inpactor)
 * LTR retrotransposon classification experiments using ML: [ML experiments github](https://github.com/simonorozcoarias/MachineLearningInTEs)
 * Plant LTR retrotransposon reference library: [InpactorDB dataset](https://zenodo.org/record/5816833#.YdRXUXWZNH4)
-* Graphical interface for searching in InpactorDB database: [InpactorDB GUI](https://inpactordb.github.io) 
+* InpactorDB Search Engine: [InpactorDB GUI](https://inpactordb.github.io) 
 * Dataset of genomic features other than LTR-RTs: [Negative Instances dataset](https://zenodo.org/record/4543905#.YdRXpnWZNH4)
 
 ## Citation
