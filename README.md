@@ -40,7 +40,7 @@ Go to the Inpactor2 folder and find the file named "Inpactor2.yml". Then, instal
 ```
 conda env create -f Inpactor2/Inpactor2.yml
 ```
-If you are using a Mac-based OS system, use the file "Inpactor2_mac.yml" instead:
+If you are using a Mac-based OS system (only compatible with INTEL-based processors), use the file "Inpactor2_mac.yml" instead:
 ```
 conda env create -f Inpactor2/Inpactor2_mac.yml
 ```
