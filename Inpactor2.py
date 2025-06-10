@@ -12,6 +12,8 @@ from Bio import SeqIO
 import subprocess
 import time
 import multiprocessing
+from multiprocessing import Pool
+from functools import partial
 import argparse
 import psutil
 from joblib import dump, load
@@ -54,101 +56,58 @@ def f1_m(y_true, y_pred):
 """
 These functions are used to check if the input sequences contain non-nucleotic characters (others than A, C, T, G, N)
 """
-def check_nucleotides_master(list_seqs, threads):
-    n = len(list_seqs)
-    seqs_per_procs = int(n / threads)
-    remain = n % threads
-    ini_per_thread = []
-    end_per_thread = []
-    for p in range(threads):
-        if p < remain:
-            init = p * (seqs_per_procs + 1)
-            end = n if init + seqs_per_procs + 1 > n else init + seqs_per_procs + 1
-        else:
-            init = p * seqs_per_procs + remain
-            end = n if init + seqs_per_procs > n else init + seqs_per_procs
-        ini_per_thread.append(init)
-        end_per_thread.append(end)
-
-    # Run in parallel the checking
-    pool = multiprocessing.Pool(processes=threads)
-    localresults = [pool.apply_async(check_nucleotides_slave,
-                                     args=[list_seqs[ini_per_thread[x]:end_per_thread[x]]]) for x in range(threads)]
-    localChecks = [p.get() for p in localresults]
-    for i in range(len(localChecks)):
-        if localChecks[i] == 1:
-            print("FATAL ERROR: DNA sequences must contain only A, C, G, T, or N characters, please fix it and "
-                  "re-run Inpactor2")
-            sys.exit(0)
-
-    pool.close()
-
-def check_nucleotides_slave(list_seqs):
-    for seq in list_seqs:
-        noDNAlanguage = [nucl for nucl in str(seq) if nucl.upper() not in ['A', 'C', 'T', 'G', 'N', '\n']]
-        if len(noDNAlanguage) > 0:
-            return 1
+def check_single_sequence(seq):
+    """检查单个序列是否只包含合法核苷酸"""
+    noDNAlanguage = [nucl for nucl in str(seq) if nucl.upper() not in ['A', 'C', 'T', 'G', 'N', '\n']]
+    if len(noDNAlanguage) > 0:
+        return 1
     return 0
+
+
+def check_nucleotides_master(list_seqs, threads):
+    """使用动态负载均衡的并行核苷酸检查"""
+    with Pool(processes=threads) as pool:
+        # 使用imap_unordered进行动态任务分配
+        results = list(pool.imap_unordered(check_single_sequence, list_seqs, chunksize=max(1, len(list_seqs)//threads//10)))
+    
+    # 检查是否有非法字符
+    if any(result == 1 for result in results):
+        print("FATAL ERROR: DNA sequences must contain only A, C, G, T, or N characters, please fix it and "
+              "re-run Inpactor2")
+        sys.exit(0)
 
 
 """
 These functions split the input sequences into total_win_len length to get a standard size of all sequences
 needed to execute the neural networks
 """
+def process_single_sequence_dataset(args):
+    """处理单个序列，转换为one-hot编码"""
+    index, seq, total_win_len = args
+    return index, fasta2one_hot(seq, total_win_len)
+
+
 def create_dataset_master(list_ids, list_seqs, threads, total_win_len, outputDir):
+    """使用动态负载均衡的数据集创建"""
     n = len(list_ids)
-    seqs_per_procs = int(n / threads)
-    remain = n % threads
-    ini_per_thread = []
-    end_per_thread = []
-    for p in range(threads):
-        if p < remain:
-            init = p * (seqs_per_procs + 1)
-            end = n if init + seqs_per_procs + 1 > n else init + seqs_per_procs + 1
-        else:
-            init = p * seqs_per_procs + remain
-            end = n if init + seqs_per_procs > n else init + seqs_per_procs
-        ini_per_thread.append(init)
-        end_per_thread.append(end)
-    pool = multiprocessing.Pool(processes=threads)
-
-    localresults = [pool.apply_async(create_dataset_slave,
-                                     args=[list_seqs[ini_per_thread[x]:end_per_thread[x]], total_win_len, outputDir,
-                                           x]) for x in
-                    range(threads)]
-    localTables = [p.get() for p in localresults]
-
+    
+    # 准备任务参数
+    tasks = [(i, list_seqs[i], total_win_len) for i in range(n)]
+    
+    # 使用进程池进行动态任务分配
+    with Pool(processes=threads) as pool:
+        # imap_unordered会动态分配任务给空闲的进程
+        results = list(pool.imap_unordered(process_single_sequence_dataset, tasks, chunksize=max(1, n//threads//10)))
+    
+    # 按原始顺序排序结果
+    results.sort(key=lambda x: x[0])
+    
+    # 创建最终的数据集
     splitted_genome = np.zeros((n, 5, total_win_len), dtype=bool)
-    index = 0
-    for i in range(len(localTables)):
-        if localTables[i].shape[0] > 1:
-            try:
-                dataset = np.load(outputDir + '/dataset_2d_' + str(i) + '.npy')
-                for j in range(dataset.shape[0]):
-                    splitted_genome[index, :, :] = dataset[j, :, :]
-                    index += 1
-                os.remove(outputDir + '/dataset_2d_' + str(i) + '.npy')
-            except FileNotFoundError:
-                print('WARNING: I could not find: ' + outputDir + '/dataset_2d_' + str(i) + '.npy')
-    pool.close()
+    for index, one_hot_seq in results:
+        splitted_genome[index, :, :] = one_hot_seq
+    
     return splitted_genome
-
-def create_dataset_slave(list_seqs, total_win_len, outputdir, x):
-    j = 0
-    if len(list_seqs) > 0:
-        dataset = np.zeros((len(list_seqs), 5, total_win_len), dtype=bool)
-        for i in range(len(list_seqs)):
-            dataset[j, :, :] = fasta2one_hot(list_seqs[i], total_win_len)
-            j += 1
-
-        if dataset.shape[1] > 1:
-            np.save(outputdir + '/dataset_2d_' + str(x) + '.npy', dataset.astype(np.uint8))
-            return np.zeros((10, 10), dtype=bool)
-        else:  # Process did not find any LTR-RT
-            return np.zeros((1, 1), dtype=bool)
-    else:
-        # there is no elements for processing in this thread
-        return np.zeros((1, 1), dtype=bool)
 
 
 """
@@ -228,99 +187,66 @@ def Inpactor2_Detect(splitted_genome, detec_threshold, list_ids):
 """
 This function look for the start and end position of the LTR-RTs in the sections predicted that contain elements.
 """
-def sequences_extractor_master(splitted_genome_ltr, threads, outputDir, max_len_threshold, min_len_threshold, list_ids, tg_ca, TSD, detection_proba):
-    n = splitted_genome_ltr.shape[0]
-    seqs_per_procs = int(n / threads)
-    remain = n % threads
-    splitted_genome_list = []
-
-    for i in range(threads):
-        if i < remain:
-            init = i * (seqs_per_procs + 1)
-            end = init + seqs_per_procs + 1
-        else:
-            init = i * seqs_per_procs + remain
-            end = n if init + seqs_per_procs > n else init + seqs_per_procs
-        splitted_genome_list.append(splitted_genome_ltr[init:end, :, :])
-
-    pool = multiprocessing.Pool(processes=threads)
-    localresults = [pool.apply_async(sequences_extractor_slave,
-                                     args=[splitted_genome_list[x], x, seqs_per_procs, n, remain, outputDir,
-                                           max_len_threshold, min_len_threshold, list_ids, tg_ca, TSD,
-                                           detection_proba]) for x in range(threads)]
-    localTables = [p.get() for p in localresults]
-
-    # to join local results of extracted sequences
-    pos_predicted = []
-    for i in range(0, len(localTables)):
-        pos_predicted.extend(localTables[i])
-
-    # to join local results of predicted IDs
-    ids_predicted = []
-    for i in range(threads):
-        try:
-            IDsfile = open(outputDir + '/predicted_ids_' + str(i) + '.txt', 'r')
-            lines = IDsfile.readlines()
-            for line in lines:
-                ids_predicted.append(line.replace('\n', ''))
-            IDsfile.close()
-            os.remove(outputDir + '/predicted_ids_' + str(i) + '.txt')
-        except FileNotFoundError:
-            continue
-    pool.close()
-
-    return pos_predicted, ids_predicted
-
-
-def sequences_extractor_slave(splitted_genome, x, seqs_per_procs, n, remain, outputdir,
-                        max_len_threshold, min_len_threshold, list_ids, tg_ca, TSD, detect_proba):
-    if x < remain:
-        i = x * (seqs_per_procs + 1)
-        m = n if i + seqs_per_procs + 1 > n else i + seqs_per_procs + 1
-    else:
-        i = x * seqs_per_procs + remain
-        m = n if i + seqs_per_procs > n else i + seqs_per_procs
-
+def process_single_sequence_extraction(args):
+    """处理单个序列的LTR提取任务"""
+    i, genome_slice, list_id, outputdir, max_len_threshold, min_len_threshold, tg_ca, TSD, detect_proba = args
+    
+    # 获取元素位置
+    bestCandidates = adjust_seq_positions(genome_slice, outputdir, i, max_len_threshold,
+                                         min_len_threshold, tg_ca, TSD)
+    
     predicted_ids = []
     predicted_pos = []
+    
+    if len(bestCandidates) > 0:
+        for c in range(len(bestCandidates)):
+            init = bestCandidates[c][0]
+            end = bestCandidates[c][1]
+            
+            # 提取序列ID
+            seq_id = list_id.split("#")[0]
+            factor = int(list_id.split("#")[1])
+            predicted_ids.append(
+                seq_id + "#" + str(init + factor) + "#" + str(end + factor) + "#" + str(detect_proba))
+            predicted_pos.append([init, end, i])
+    
+    return i, predicted_ids, predicted_pos
 
-    if i < m:
 
-        k = 0  # index of the splitted_genome dataset of this thread
-        while i < m and k < len(splitted_genome):
-            #######
-            # to get the positions of the element in the window.
-            bestCandidates = adjust_seq_positions(splitted_genome[k, :, :], outputdir, x, max_len_threshold,
-                                                  min_len_threshold, tg_ca, TSD)
-            if len(bestCandidates) > 0:
-                j = 0  # index of the extracted_seq_i np array
-                for c in range(len(bestCandidates)):
-                    init = bestCandidates[c][0]
-                    end = bestCandidates[c][1]
-                    j += 1
-                    # to extract the seq ID to save in the new predicted_list
-                    seq_id = list_ids[i].split("#")[0]
-                    factor = int(list_ids[i].split("#")[1])
-                    predicted_ids.append(
-                        seq_id + "#" + str(init + factor) + "#" + str(end + factor) + "#" + str(detect_proba[i]))
-                    predicted_pos.append([init, end, i])
-
-            i += 1
-            k += 1
-
-        IDsfile = open(outputdir + '/predicted_ids_' + str(x) + '.txt', 'w')
-        for ID in predicted_ids:
-            IDsfile.write(ID + '\n')
-        IDsfile.close()
-
-    return predicted_pos
+def sequences_extractor_master(splitted_genome_ltr, threads, outputDir, max_len_threshold, min_len_threshold, list_ids, tg_ca, TSD, detection_proba):
+    """使用动态负载均衡的序列提取"""
+    n = splitted_genome_ltr.shape[0]
+    
+    # 准备任务参数
+    tasks = [(i, splitted_genome_ltr[i, :, :], list_ids[i], outputDir, 
+              max_len_threshold, min_len_threshold, tg_ca, TSD, detection_proba[i]) 
+             for i in range(n)]
+    
+    # 使用进程池进行动态任务分配
+    with Pool(processes=threads) as pool:
+        # 使用较小的chunksize以获得更好的负载均衡
+        results = list(pool.imap_unordered(process_single_sequence_extraction, tasks, chunksize=1))
+    
+    # 整理结果
+    pos_predicted = []
+    ids_predicted = []
+    
+    for _, pred_ids, pred_pos in results:
+        ids_predicted.extend(pred_ids)
+        pos_predicted.extend(pred_pos)
+    
+    return pos_predicted, ids_predicted
 
 
 """
 This function uses LTR_Finder to find the elements inside the sections predicted that contain elements
 """
 def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, min_len_threshold, tg_ca, TSD):
-    seq1file = open(outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta', 'w')
+    # 使用进程ID和时间戳创建唯一文件名，避免冲突
+    import time
+    unique_id = f"{idProc}_{int(time.time()*1000000)}"
+    
+    seq1file = open(outputDir + '/splittedChrWindow_' + unique_id + '.fasta', 'w')
     iterSeq = one_hot2fasta(extracted_seq)
     seq1file.write('>seq_1\n' + iterSeq + '\n')
     seq1file.close()
@@ -339,7 +265,7 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
 
         output = subprocess.run(
             ['ltr_finder', '-F', finder_filter, '-D', str(max_len_threshold), '-d', str(min_len_threshold), '-w2', '-C',
-            '-p', '20', '-M', '0.80', '-L', '7000', '-l', '100', outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta'],
+            '-p', '20', '-M', '0.80', '-L', '7000', '-l', '100', outputDir + '/splittedChrWindow_' + unique_id + '.fasta'],
             stdout=subprocess.PIPE, text=True, timeout=1500)
 
     except Exception as e:
@@ -359,9 +285,9 @@ def adjust_seq_positions(extracted_seq, outputDir, idProc, max_len_threshold, mi
             bestHits.append([element_int, element_end])
 
     try:
-        os.remove(outputDir + '/splittedChrWindow_' + str(idProc) + '.fasta')
+        os.remove(outputDir + '/splittedChrWindow_' + unique_id + '.fasta')
     except:
-        print("I could not delete the file: " + outputDir + "/splittedChrWindow_" + str(idProc) + ".fasta")
+        print("I could not delete the file: " + outputDir + "/splittedChrWindow_" + unique_id + ".fasta")
     return bestHits
 
 
@@ -607,69 +533,44 @@ def create_bed_file(finalIds, percentajes, outputDir, curation):
 This function create the Inpactor2_library.fasta file, taking the joined prediction and creates a fasta file containing
 all LTR retrotransposon's sequences
 """
-def create_fasta_file_master(finalIds, threads, ltr_predicted_final, outputDir, curation):
-    n = len(finalIds)
-    seqs_per_procs = int(n / threads)
-    remain = n % threads
-
-    splitted_sequences_list = []
-    for i in range(threads):
-        if i < remain:
-            init = i * (seqs_per_procs + 1)
-            end = init + seqs_per_procs + 1
-        else:
-            init = i * seqs_per_procs + remain
-            end = n if init + seqs_per_procs > n else init + seqs_per_procs
-        splitted_sequences_list.append(ltr_predicted_final[init:end])
-    ltr_predicted_final = None  # clean unusable variable
-
-    pool = multiprocessing.Pool(processes=threads)
-    localresults = [pool.apply_async(create_fasta_file_slave,
-                                     args=[splitted_sequences_list[x], finalIds, x, seqs_per_procs, n, remain,
-                                           outputDir, curation]) for x in range(threads)]
-    localSequences = [p.get() for p in localresults]
-    outputFile = open(outputDir + '/Inpactor2_library.fasta', 'w')
-    for i in range(threads):
-        filei = open(outputDir + '/Inpactor2_library_' + str(i) + '.fasta', 'r')
-        lines = filei.readlines()
-        for line in lines:
-            outputFile.write(line)
-        filei.close()
-        try:
-            os.remove(outputDir + '/Inpactor2_library_' + str(i) + '.fasta')
-        except:
-            print('I cannot delete the file: ' + outputDir + '/Inpactor2_library_' + str(i) + '.fasta')
-    outputFile.close()
-    pool.close()
-
-def create_fasta_file_slave(predicted_ltr_rts, finalIds, x, seqs_per_procs, n, remain, outputDir, curation):
-    res = ""
-    i = 0
-    result_file = open(outputDir + '/Inpactor2_library_' + str(x) + '.fasta', 'w')
-    if x < remain:
-        init = x * (seqs_per_procs + 1)
-        end = init + seqs_per_procs + 1
+def process_single_fasta_output(args):
+    """处理单个FASTA输出任务"""
+    i, ltr_seq, final_id, curation = args
+    
+    columns = final_id.split("#")
+    if curation:
+        lineage = columns[5]
     else:
-        init = x * seqs_per_procs + remain
-        end = n if init + seqs_per_procs > n else init + seqs_per_procs
+        lineage = columns[4]
+    
+    idseq = columns[0]
+    initPos = columns[1]
+    endPos = columns[2]
+    
+    result = '>' + idseq + '_' + initPos + '_' + endPos + '#LTR/' + lineage.replace('/', '-').replace('RLC-', 'RLC/').replace('RLG-', 'RLG/') + '\n' + \
+             ltr_seq + '\n'
+    
+    return i, result
 
-    while init < end and init < len(finalIds):
-        p = finalIds[init]
-        columns = p.split("#")
-        if curation:
-            lineage = columns[5]
-        else:
-            lineage = columns[4]
 
-        idseq = columns[0]
-        initPos = columns[1]
-        endPos = columns[2]
-        results = '>' + idseq + '_' + initPos + '_' + endPos + '#LTR/' + lineage.replace('/', '-').replace('RLC-', 'RLC/').replace('RLG-', 'RLG/') + '\n' + \
-                  predicted_ltr_rts[i] + '\n'
-        result_file.write(results)
-        init += 1
-        i += 1
-    return res
+def create_fasta_file_master(finalIds, threads, ltr_predicted_final, outputDir, curation):
+    """使用动态负载均衡的FASTA文件创建"""
+    n = len(finalIds)
+    
+    # 准备任务参数
+    tasks = [(i, ltr_predicted_final[i], finalIds[i], curation) for i in range(n)]
+    
+    # 使用进程池进行动态任务分配
+    with Pool(processes=threads) as pool:
+        results = list(pool.imap_unordered(process_single_fasta_output, tasks, chunksize=max(1, n//threads//10)))
+    
+    # 按原始顺序排序结果
+    results.sort(key=lambda x: x[0])
+    
+    # 写入输出文件
+    with open(outputDir + '/Inpactor2_library.fasta', 'w') as outputFile:
+        for _, fasta_content in results:
+            outputFile.write(fasta_content)
 
 
 if __name__ == '__main__':
